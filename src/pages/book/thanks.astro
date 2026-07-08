@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import Button from '@/components/Button.astro';
+import CallButton from '@/components/CallButton.astro';
+---
+<BaseLayout title="Thanks" description="Appointment request received.">
+  <SectionLight tone="paper">
+    <h1 class="text-5xl md:text-6xl">Thanks — we'll be in touch.</h1>
+    <p class="mt-4 max-w-2xl text-lg">We've got your request. You'll usually hear back within one business day to confirm a time. If it's urgent, give us a call.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/" variant="ghost-on-light">← Back home</Button>
+      <CallButton variant="ghost" class="!text-[var(--color-ink)] !border-[var(--color-ink)]/30" />
+    </div>
+  </SectionLight>
+</BaseLayout>

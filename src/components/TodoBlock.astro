@@ -1,0 +1,11 @@
+---
+import BadgeDiamond from './BadgeDiamond.astro';
+interface Props { label: string; ratio?: string; }
+const { label, ratio = '16/10' } = Astro.props;
+---
+<div class="relative w-full bg-[var(--color-ink-2)] border border-[var(--color-bone)]/15 rounded-[var(--radius-card)] grid place-items-center text-[var(--color-bone)]/60" style={`aspect-ratio: ${ratio}`}>
+  <div class="flex flex-col items-center gap-3">
+    <BadgeDiamond color="gold">TODO</BadgeDiamond>
+    <p class="text-sm">{label}</p>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+---
+import { reviews } from '@/data/reviews';
+import StarRating from '@/components/StarRating.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Button from '@/components/Button.astro';
+import { shop } from '@/data/shop';
+
+const featured = reviews.slice(0, 3);
+---
+<section class="bg-[var(--color-ink)] text-[var(--color-paper)] py-20 md:py-28">
+  <div class="container-default">
+    <div class="text-center mb-12">
+      <Eyebrow>What customers say</Eyebrow>
+      <h2 class="mt-2 text-4xl md:text-5xl">{shop.reviewStats.average} stars · {shop.reviewStats.count}+ reviews</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      {featured.map(r => (
+        <figure class="p-6 bg-[var(--color-ink-2)] border border-[var(--color-bone)]/10 rounded-[var(--radius-card)]">
+          <StarRating rating={r.rating} />
+          <blockquote class="mt-4 text-[var(--color-bone)] leading-relaxed">"{r.body}"</blockquote>
+          <figcaption class="mt-4 text-sm text-[var(--color-bone)]/60">— {r.name}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <div class="mt-10 text-center"><Button href="/reviews" variant="ghost-on-dark">Read all reviews</Button></div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import SectionDark from '@/components/SectionDark.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import TodoBlock from '@/components/TodoBlock.astro';
+import { shop } from '@/data/shop';
+import CertStrip from '@/components/CertStrip.astro';
+---
+<BaseLayout title="About — Meet Chance">
+  <SectionLight tone="bone">
+    <div class="container-narrow">
+      <Eyebrow class="!text-[var(--color-ember)]">About the shop</Eyebrow>
+      <h1 class="mt-2 text-5xl md:text-6xl">Meet Chance.</h1>
+      <div class="mt-8"><TodoBlock label="Portrait of Chance — replace with real photo" ratio="3/2" /></div>
+      <div class="mt-10 prose-lg max-w-none leading-relaxed text-[var(--color-ink)]/90">
+        <p class="text-2xl"><span class="float-left mr-3 mt-1 text-7xl font-display font-bold leading-none text-[var(--color-ember)]">P</span>appytackle isn't a corporate auto chain. It's one guy who knows what he's doing, one bay at a time, in a small shop on Sunset Pond Ln in Bellingham.</p>
+        <p class="mt-6">Chance has been working on cars and trucks for over a decade. ASE Certified. The kind of mechanic who tells you when you don't need a repair, and explains exactly what he found when you do.</p>
+        <p class="mt-6">Most days, that means oil changes, brakes, A/C work, diagnostics, exhaust — the usual stuff a daily driver needs. But on the days when someone rolls in with a Tacoma that needs a 3-inch lift, or a Lexus GX that wants long-travel suspension, that's where Pappytackle really opens up. Chance builds rigs the way he'd build his own — proper geometry, real alignment, no compromises that bite you on the trail.</p>
+        <p class="mt-6">If you're local and you want a shop that picks up the phone and tells you the truth, you found one.</p>
+      </div>
+      <div class="mt-10"><TodoBlock label="Shop exterior or interior — replace with real photo" ratio="16/9" /></div>
+    </div>
+  </SectionLight>
+  <SectionDark>
+    <div class="text-center">
+      <Eyebrow>Trusted by</Eyebrow>
+      <CertStrip />
+      <p class="mt-6 text-2xl">{shop.reviewStats.average} stars · {shop.reviewStats.count}+ verified reviews</p>
+    </div>
+  </SectionDark>
+</BaseLayout>

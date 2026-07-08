@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import hero from '@/assets/photos/lexus-gx/long-travel-01.jpg';
+import Button from '@/components/Button.astro';
+import CallButton from '@/components/CallButton.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+
+const hasVideo = true;
+const videoSrc = '/videos/lexus-gx-hero.mp4';
+const videoWebm = '/videos/lexus-gx-hero.webm';
+---
+<section class="relative min-h-[100svh] flex items-end overflow-hidden bg-[var(--color-char)]">
+  <Image src={hero} alt="Lexus GX long-travel build" class="absolute inset-0 w-full h-full object-cover opacity-90" widths={[960,1280,1920,2560]} sizes="100vw" loading="eager" fetchpriority="high" />
+  {hasVideo && (
+    <video class="absolute inset-0 w-full h-full object-cover opacity-90" autoplay muted loop playsinline poster={hero.src}>
+      <source src={videoWebm} type="video/webm" />
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  )}
+  <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-char)] via-[var(--color-char)]/60 to-transparent"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-[var(--color-char)]/80 via-transparent to-transparent"></div>
+  <div class="relative container-wide pb-20 md:pb-28">
+    <Eyebrow class="mb-4 text-[var(--color-gold)]">Bellingham, WA · Est. 2024</Eyebrow>
+    <h1 class="text-6xl md:text-7xl lg:text-8xl text-[var(--color-paper)] max-w-4xl">
+      Built to <span class="text-[var(--color-ember)]">go anywhere.</span>
+    </h1>
+    <p class="mt-6 max-w-xl text-lg text-[var(--color-bone)] leading-relaxed">
+      Honest auto repair and full custom 4×4 builds — under one roof, by one shop, with the same name on the door every time you visit.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/book" variant="ember" size="lg">Book Appointment</Button>
+      <CallButton variant="ghost" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Button from '@/components/Button.astro';
+import CallButton from '@/components/CallButton.astro';
+import { shop } from '@/data/shop';
+
+const { lat, lng } = shop.geo;
+const bbox = `${lng - 0.01},${lat - 0.005},${lng + 0.01},${lat + 0.005}`;
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+const addr = encodeURIComponent(`${shop.address.line1}, ${shop.address.city}, ${shop.address.state} ${shop.address.zip}`);
+---
+<BaseLayout title="Contact">
+  <SectionLight tone="paper">
+    <Eyebrow class="!text-[var(--color-ember)]">Get in touch</Eyebrow>
+    <h1 class="mt-2 text-5xl md:text-6xl">Contact</h1>
+    <div class="mt-12 grid md:grid-cols-2 gap-12">
+      <div>
+        <h2 class="text-2xl">Visit</h2>
+        <address class="mt-3 not-italic leading-relaxed text-lg">
+          {shop.address.line1}<br/>{shop.address.city}, {shop.address.state} {shop.address.zip}
+        </address>
+        <h2 class="mt-8 text-2xl">Hours</h2>
+        <ul class="mt-3 leading-relaxed">
+          {shop.hours.map(h => (
+            <li class="flex justify-between max-w-xs"><span>{h.day}</span><span>{h.open ? `${h.open}–${h.close}` : 'Closed'}</span></li>
+          ))}
+        </ul>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <CallButton variant="ghost" class="!text-[var(--color-ink)] !border-[var(--color-ink)]/30" />
+          <Button href={`https://maps.apple.com/?address=${addr}`} variant="ember">Directions</Button>
+        </div>
+      </div>
+      <div class="aspect-square rounded-[var(--radius-card)] overflow-hidden border border-[var(--color-ink)]/15">
+        <iframe title="Map" src={mapSrc} class="w-full h-full" loading="lazy" />
+      </div>
+    </div>
+  </SectionLight>
+</BaseLayout>

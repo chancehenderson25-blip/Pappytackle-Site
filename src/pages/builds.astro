@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import { builds } from '@/data/builds';
+import { photoById } from '@/data/photos';
+import BuildGallery from '@/components/builds/BuildGallery';
+import TodoBlock from '@/components/TodoBlock.astro';
+
+const items = builds.flatMap(b => {
+  if (b.photoIds.length === 0) return [];
+  return b.photoIds.map((pid, idx) => {
+    const p = photoById(pid)!;
+    return {
+      id: `${b.id}-${idx}`,
+      title: b.title,
+      vehicle: b.vehicle,
+      summary: b.summary,
+      category: b.category,
+      photoSrc: p.src,
+      photoAlt: p.alt,
+    };
+  });
+});
+---
+<BaseLayout title="4×4 Builds Gallery" description="Real lift kits, suspension work, and full 4×4 builds out of Pappytackle in Bellingham, WA.">
+  <SectionLight tone="paper">
+    <Eyebrow class="!text-[var(--color-ember)]">The showcase</Eyebrow>
+    <h1 class="mt-2 text-5xl md:text-6xl">4×4 Builds & Customization</h1>
+    <p class="mt-4 max-w-2xl text-lg">Real rigs we've built and serviced. Click any photo for the full story.</p>
+    <div class="mt-12">
+      <BuildGallery client:visible items={items} />
+    </div>
+    <div class="mt-16">
+      <h2 class="text-3xl mb-6">Other recent jobs (photos coming)</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <TodoBlock label="Toyota Sienna 3.5-inch lift" />
+        <TodoBlock label="Jeep Gladiator diff service" />
+        <TodoBlock label="Ford Transit fuel injectors" />
+        <TodoBlock label="GMC Sierra oil service" />
+      </div>
+    </div>
+  </SectionLight>
+</BaseLayout>

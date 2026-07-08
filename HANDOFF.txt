@@ -1,0 +1,288 @@
+PAPPYTACKLE 4×4 & AUTO — WEBSITE HANDOFF
+===========================================
+
+This zip contains the complete source code for the Pappytackle 4×4 & Auto
+website (https://pappytackle.com once deployed). It was built by Aidan Barton
+as a gift / pitch.
+
+What's in here:
+- A full marketing site (Home, 4×4 Builds, Services, Book, About, Reviews, Contact)
+- Embedded AI features powered by Claude (chat widget, diagnose a problem,
+  suggest a service category for the booking form, smart search)
+- Real shop photography baked in
+- Production-ready except for three things that need a developer's hands once,
+  documented below.
+
+This file walks any developer (or a tech-savvy friend) through the three
+remaining things:
+   1. Publishing the site to the internet
+   2. Swapping the Anthropic / Claude API key over to one Chance owns
+   3. Wiring booking form submissions to land in Chance's email inbox
+
+
+-------------------------------------------------------------------------------
+WHAT'S A WEB DEVELOPER NEEDED FOR?
+-------------------------------------------------------------------------------
+
+Honestly, none of these steps are hard — a developer (or anyone comfortable
+with the command line) can do all three in under an hour. If you want to hire
+someone, the search term is "Astro / React developer" and the work is
+"Vercel deploy + Resend email integration + env var setup". Most freelancers
+would charge $100-250 for this whole handoff.
+
+
+-------------------------------------------------------------------------------
+STEP 1 — PUBLISH THE SITE TO THE INTERNET (recommended: Vercel)
+-------------------------------------------------------------------------------
+
+Vercel is free for small business sites. You don't need a credit card to start.
+
+Prerequisites:
+- A GitHub account (free at https://github.com/signup)
+- A Vercel account (free at https://vercel.com/signup, sign in with GitHub)
+- Node.js installed locally if you want to test before pushing
+  (https://nodejs.org — install the LTS version)
+
+1.1  Unzip this folder somewhere on your computer.
+
+1.2  Make one config change to swap from local-development mode to Vercel mode.
+
+     In Terminal, navigate into the folder and run:
+
+         npm install @astrojs/vercel
+
+     Then open the file astro.config.mjs in any text editor. Find these two lines:
+
+         import node from '@astrojs/node';
+         ...
+         adapter: node({ mode: 'standalone' }),
+
+     Replace them with:
+
+         import vercel from '@astrojs/vercel/serverless';
+         ...
+         adapter: vercel(),
+
+     Save the file.
+
+1.3  Push the code to GitHub.
+
+     - Create a new empty private repository on github.com (e.g., "pappytackle-site")
+     - In Terminal, from inside the unzipped folder:
+
+         git init
+         git add -A
+         git commit -m "initial commit"
+         git branch -M main
+         git remote add origin https://github.com/YOUR_USERNAME/pappytackle-site.git
+         git push -u origin main
+
+     (Replace YOUR_USERNAME with your actual GitHub username.)
+
+1.4  Connect Vercel to that GitHub repo.
+
+     - Go to https://vercel.com/new
+     - "Import" → pick the pappytackle-site repo you just created
+     - Framework Preset: should auto-detect as "Astro"
+     - DO NOT click Deploy yet — you need to set environment variables first
+       (see Step 2 below)
+
+1.5  After Step 2 and Step 3 below are done, click Deploy on Vercel. The site
+     will be live in about 60 seconds at a URL like https://pappytackle.vercel.app
+
+1.6  Connect your real domain (e.g., pappytackle.com)
+
+     - In Vercel: Project Settings → Domains → Add → type "pappytackle.com"
+     - Vercel will give you DNS records to add at your domain registrar
+       (GoDaddy, Namecheap, Squarespace, whoever you bought the domain from)
+     - Add the A record and CNAME they show you; takes 5-60 minutes to propagate
+
+
+-------------------------------------------------------------------------------
+STEP 2 — SWAP THE CLAUDE / ANTHROPIC API KEY
+-------------------------------------------------------------------------------
+
+The site uses Claude (Anthropic's AI) for the chat widget, the "diagnose a
+problem" feature, the "what service do I need?" booking helper, and the smart
+search. Each of these calls Anthropic's servers, which costs a small amount
+per request (~$0.001 per chat message on average).
+
+Aidan's API key is currently NOT in the code (it lived in a local file that
+was never copied into this zip). You need to create your own.
+
+2.1  Get an Anthropic API key
+
+     - Go to https://console.anthropic.com/signup
+     - Create an account (Chance's email is fine)
+     - Add a payment method (Settings → Billing → Add Credits — $5 minimum
+       lasts a long time for normal site traffic, probably months)
+     - Settings → API Keys → "Create Key" → name it "pappytackle-site"
+     - COPY THE KEY IMMEDIATELY — it's shown only once. It starts with
+       "sk-ant-api03-..."
+
+2.2  Add the key to Vercel
+
+     - Vercel project → Settings → Environment Variables → Add
+     - Name:  ANTHROPIC_API_KEY
+     - Value: paste the key (no quotes, no spaces)
+     - Environments: check all three (Production, Preview, Development)
+     - Save
+
+2.3  While you're there, add one more env var:
+
+     - Name:  PUBLIC_SITE_URL
+     - Value: https://pappytackle.com  (or your Vercel URL if no domain yet)
+     - Save
+
+2.4  Done. The next time the site builds (which happens automatically on every
+     git push), it will pick up the new key. No code changes needed.
+
+
+-------------------------------------------------------------------------------
+STEP 3 — SEND BOOKING FORM SUBMISSIONS TO CHANCE'S EMAIL
+-------------------------------------------------------------------------------
+
+Right now, when someone submits the booking form, it gets saved to a file on
+the server. That's fine for local testing but useless in production — Chance
+needs the submissions to land in his inbox.
+
+The easiest way to wire this up is with Resend (https://resend.com), an email
+service with a generous free tier (3,000 emails/month free). Setup takes
+about 15 minutes.
+
+3.1  Sign up at https://resend.com (free, no credit card)
+
+3.2  Verify a sending domain
+     - Resend → Domains → Add Domain → enter pappytackle.com (or whatever
+       domain you own)
+     - Resend shows DNS records — add them at your domain registrar
+       (or, if you don't own a domain yet, you can use Resend's
+       "onboarding@resend.dev" sender for testing without verifying anything)
+
+3.3  Create an API key
+     - Resend → API Keys → Create → copy the key (starts with "re_...")
+
+3.4  Add it to Vercel
+     - Vercel project → Settings → Environment Variables → Add
+     - Name:  RESEND_API_KEY
+     - Value: paste the key
+     - Save
+     - Add one more:
+     - Name:  BOOKINGS_TO_EMAIL
+     - Value: chance@pappytackle.com  (or whatever email he wants the
+              bookings to land in)
+     - Save
+
+3.5  Install the Resend SDK and update the booking endpoint
+
+     In Terminal, from the project folder:
+
+         npm install resend
+
+     Then open this file in a text editor:
+
+         src/pages/api/bookings.ts
+
+     Replace its entire contents with the code in the file
+     `HANDOFF_bookings_with_email.ts` (included in the same folder as this
+     HANDOFF.txt for convenience). It does the same form validation as
+     before but also sends an email to Chance with the booking details.
+
+3.6  Commit and push:
+
+         git add -A
+         git commit -m "feat: email bookings via resend"
+         git push
+
+     Vercel will auto-redeploy. From now on, every booking submission sends
+     Chance a formatted email.
+
+
+-------------------------------------------------------------------------------
+STEP 4 — RECOMMENDED ADDITIONAL HARDENING
+-------------------------------------------------------------------------------
+
+These aren't blockers but you'll want them once the site has real traffic:
+
+4.1  RATE LIMITING on AI endpoints
+
+     Without this, anyone who finds the site can hammer the chat or diagnose
+     endpoints and burn through the Anthropic credit balance. Add Upstash
+     Ratelimit (free tier, 5 minutes of work):
+
+     - Sign up at https://upstash.com
+     - Create a Redis database (free tier)
+     - Copy the REST URL and Token
+     - Add to Vercel as env vars: UPSTASH_REDIS_REST_URL and
+       UPSTASH_REDIS_REST_TOKEN
+     - In Terminal: npm install @upstash/ratelimit @upstash/redis
+     - Have a developer add ~5 lines to each of the 4 files under
+       src/pages/api/ai/ to enforce per-IP rate limits (e.g., 20 chat
+       messages per hour per IP). Easy ChatGPT/Claude task.
+
+4.2  REAL REVIEWS
+
+     The site currently shows 6 sample reviews (clearly marked in the code
+     with `_isSample: true` flags). Replace them with real verbatim text
+     from the shop's Google Business page:
+
+     - Open src/data/reviews.ts in a text editor
+     - Replace the body, name, and date fields with real reviews
+     - Remove the `_isSample: true` line from each entry that's now real
+     - Commit and push
+
+4.3  REAL SHOP PHOTOS
+
+     There are placeholder "TODO" blocks in two spots that need real photos:
+     - The About page (portrait of Chance + photo of shop interior)
+     - The 4×4 Builds gallery (Sienna lift, Gladiator diff service,
+       Transit fuel injectors, Sierra oil service — all happened but
+       weren't photographed)
+
+     To add a new photo:
+     - Drop the photo in src/assets/photos/<category>/
+     - Add an import + Photo entry in src/data/photos.ts
+     - Reference the photo's id from src/data/builds.ts or recentJobs.ts
+
+
+-------------------------------------------------------------------------------
+WHERE THE IMPORTANT THINGS LIVE
+-------------------------------------------------------------------------------
+
+Want to change shop info, services, hours, etc? These are the files:
+
+src/data/shop.ts          — Name, address, phone, hours, certifications
+src/data/services.ts      — List of services with descriptions
+src/data/recentJobs.ts    — Recent jobs catalog (used by AI + gallery)
+src/data/reviews.ts       — Customer reviews
+src/data/builds.ts        — Featured 4×4 builds
+src/data/photos.ts        — All photos with descriptions
+
+These are plain TypeScript files — open them in any text editor (Visual
+Studio Code is free and recommended: https://code.visualstudio.com/).
+After editing, commit + push to GitHub and Vercel redeploys automatically.
+
+To change site text (page copy, button labels, etc.), the .astro and .tsx
+files under src/pages/ and src/components/ are where the content lives.
+
+To change the look (colors, fonts, spacing), edit src/styles/global.css.
+
+
+-------------------------------------------------------------------------------
+THE FULL DEVELOPER README
+-------------------------------------------------------------------------------
+
+There's also a README.md file in the project root that has the same info in
+developer-friendly format (markdown). If you hire a dev to do any of the
+above, point them at that file first.
+
+
+-------------------------------------------------------------------------------
+QUESTIONS?
+-------------------------------------------------------------------------------
+
+Reach out to Aidan Barton — he built the site and can answer questions
+about how it's put together.
+
+  Email:    aidanbartonmedia@gmail.com
+  Instagram: @aidan.cr3

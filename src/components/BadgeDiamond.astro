@@ -1,0 +1,9 @@
+---
+interface Props { color?: 'navy' | 'ember' | 'gold' | 'bone'; class?: string; }
+const { color = 'navy', class: cls = '' } = Astro.props;
+const bg = { navy: 'var(--color-ink)', ember: 'var(--color-ember)', gold: 'var(--color-gold)', bone: 'var(--color-bone)' }[color];
+const fg = color === 'gold' || color === 'bone' ? 'var(--color-ink)' : 'var(--color-paper)';
+---
+<span class={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-display font-bold uppercase tracking-wider ${cls}`} style={`background:${bg};color:${fg};clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%);`}>
+  <slot />
+</span>

@@ -1,0 +1,6 @@
+---
+import { shop } from '@/data/shop';
+---
+<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-6 text-[var(--color-bone)]/70 text-xs uppercase tracking-[0.2em] font-bold">
+  {shop.certifications.map(c => <span class="font-display">{c}</span>)}
+</div>

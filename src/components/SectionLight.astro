@@ -1,0 +1,6 @@
+---
+interface Props { class?: string; tone?: 'paper' | 'bone'; }
+const { class: cls = '', tone = 'paper' } = Astro.props;
+const bg = tone === 'paper' ? 'var(--color-paper)' : 'var(--color-bone)';
+---
+<section class={`text-[var(--color-ink)] py-20 md:py-28 ${cls}`} style={`background:${bg}`}><div class="container-default"><slot /></div></section>

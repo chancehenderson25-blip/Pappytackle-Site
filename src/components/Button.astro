@@ -1,0 +1,19 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'ember' | 'ghost-on-dark' | 'ghost-on-light' | 'gold-link';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+const { href, variant = 'ember', size = 'md', class: cls = '' } = Astro.props;
+const sizes = { md: 'px-4 py-2.5 text-sm', lg: 'px-6 py-3.5 text-base' };
+const variants = {
+  ember: 'bg-[var(--color-ember)] text-[var(--color-paper)] hover:bg-[var(--color-ember-dark)]',
+  'ghost-on-dark': 'border border-[var(--color-bone)]/40 text-[var(--color-paper)] hover:bg-[var(--color-bone)]/10',
+  'ghost-on-light': 'border border-[var(--color-ink)]/30 text-[var(--color-ink)] hover:bg-[var(--color-ink)]/5',
+  'gold-link': 'text-[var(--color-gold)] underline-offset-4 hover:underline',
+};
+const base = 'inline-flex items-center gap-2 font-display font-bold uppercase tracking-wide rounded-[var(--radius-button)] transition-colors';
+const Tag = (href ? 'a' : 'button') as 'a' | 'button';
+---
+<Tag href={href} class={`${base} ${sizes[size]} ${variants[variant]} ${cls}`}><slot /></Tag>

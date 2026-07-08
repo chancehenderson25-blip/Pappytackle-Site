@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import logoBeige from '@/assets/logos/logo-full-beige.png';
+import logoNavy from '@/assets/logos/logo-full-navy.png';
+import CallButton from './CallButton.astro';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/builds', label: '4×4 Builds' },
+  { href: '/services', label: 'Services' },
+  { href: '/reviews', label: 'Reviews' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+const path = Astro.url.pathname;
+
+interface Props { overHero?: boolean; }
+const { overHero = false } = Astro.props;
+---
+<header id="site-nav" class="fixed inset-x-0 top-0 z-40 transition-colors duration-300" data-scrolled="false" data-over-hero={String(overHero)}>
+  <div class="container-wide flex items-center justify-between py-4">
+    <a href="/" class="flex items-center gap-3" aria-label="Pappytackle home">
+      <Image src={logoBeige} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto data-scrolled:hidden" loading="eager" />
+      <Image src={logoNavy} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto hidden" id="logo-scrolled" loading="eager" />
+    </a>
+    <nav class="hidden md:flex items-center gap-6" aria-label="Primary">
+      {links.map(l => (
+        <a href={l.href} class={`font-display font-bold uppercase tracking-wide text-sm transition-colors ${path === l.href ? 'text-[var(--color-gold)]' : 'text-[var(--color-paper)] hover:text-[var(--color-gold)]'}`}>{l.label}</a>
+      ))}
+    </nav>
+    <div class="hidden md:flex items-center gap-3">
+      <CallButton variant="compact" />
+      <a href="/book" class="inline-flex items-center px-4 py-2.5 bg-[var(--color-ember)] text-[var(--color-paper)] font-display font-bold uppercase rounded-[var(--radius-button)] hover:bg-[var(--color-ember-dark)] transition-colors">Book</a>
+    </div>
+    <button class="md:hidden text-[var(--color-paper)]" aria-label="Open menu" id="nav-toggle">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-[var(--color-ink)] border-t border-[var(--color-bone)]/15">
+    <div class="container-default flex flex-col gap-1 py-4">
+      <a href="/book" class="block px-4 py-3 bg-[var(--color-ember)] text-[var(--color-paper)] font-display font-bold uppercase rounded-[var(--radius-button)] text-center">Book Appointment</a>
+      <CallButton variant="primary" class="!justify-center" />
+      {links.map(l => <a href={l.href} class="block px-4 py-3 font-display font-bold uppercase text-[var(--color-paper)] hover:bg-[var(--color-ink-2)] rounded">{l.label}</a>)}
+    </div>
+  </div>
+</header>
+<script>
+  const nav = document.getElementById('site-nav')!;
+  const overHero = nav.dataset.overHero === 'true';
+  const apply = (solid: boolean) => {
+    nav.dataset.scrolled = String(solid);
+    nav.style.background = solid ? 'var(--color-ink)' : 'transparent';
+    nav.style.borderBottom = solid ? '1px solid rgba(216,211,189,0.12)' : 'none';
+  };
+  if (!overHero) {
+    apply(true);
+  } else {
+    const onScroll = () => apply(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+  document.getElementById('nav-toggle')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+  });
+</script>

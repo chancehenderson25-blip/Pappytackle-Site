@@ -1,0 +1,42 @@
+---
+import '@/styles/global.css';
+import SiteNav from '@/components/SiteNav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import ChatMount from '@/components/chat/ChatMount.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  navOver?: boolean;
+}
+const { title, description = 'Honest auto repair and custom 4×4 builds in Bellingham, WA. ASE Certified. 5.0 across 36+ reviews.', ogImage = '/og-default.jpg', navOver = false } = Astro.props;
+const fullTitle = `${title} · Pappytackle 4×4 & Auto · Bellingham, WA`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321').href;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#092837" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <JsonLd />
+</head>
+<body class={navOver ? '' : 'pt-20'}>
+  <SiteNav overHero={navOver} />
+  <main id="main">
+    <slot />
+  </main>
+  <SiteFooter />
+  <ChatMount />
+</body>
+</html>

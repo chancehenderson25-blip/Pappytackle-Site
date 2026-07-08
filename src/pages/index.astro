@@ -1,0 +1,19 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import TwoPathSplit from '@/components/home/TwoPathSplit.astro';
+import ServiceGrid from '@/components/home/ServiceGrid.astro';
+import RecentBuilds from '@/components/home/RecentBuilds.astro';
+import ReviewsBand from '@/components/home/ReviewsBand.astro';
+import BookingCtaBand from '@/components/home/BookingCtaBand.astro';
+import CertStrip from '@/components/CertStrip.astro';
+---
+<BaseLayout title="Honest auto repair & custom 4×4 builds" navOver>
+  <Hero />
+  <div class="bg-[var(--color-char)]"><CertStrip /></div>
+  <TwoPathSplit />
+  <ServiceGrid />
+  <RecentBuilds />
+  <ReviewsBand />
+  <BookingCtaBand />
+</BaseLayout>

@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import ReviewWall from '@/components/reviews/ReviewWall';
+import { reviews } from '@/data/reviews';
+import { shop } from '@/data/shop';
+
+const items = reviews.map(({ _isSample, ...r }) => r);
+---
+<BaseLayout title="Reviews">
+  <SectionLight tone="paper">
+    <Eyebrow class="!text-[var(--color-ember)]">Reviews</Eyebrow>
+    <h1 class="mt-2 text-5xl md:text-6xl">{shop.reviewStats.average} stars · {shop.reviewStats.count}+ reviews</h1>
+    <p class="mt-4 max-w-2xl text-lg">Real words from real customers.</p>
+    <div class="mt-12"><ReviewWall client:visible reviews={items} /></div>
+  </SectionLight>
+</BaseLayout>

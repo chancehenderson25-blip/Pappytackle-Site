@@ -1,0 +1,50 @@
+---
+import { shop } from '@/data/shop';
+import { services } from '@/data/services';
+
+const baseUrl = Astro.site?.href ?? 'http://localhost:4321/';
+
+const dayNames: Record<string, string> = {
+  Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday',
+  Fri: 'Friday', Sat: 'Saturday', Sun: 'Sunday',
+};
+
+const businessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['AutoRepair', 'LocalBusiness'],
+  name: shop.name,
+  image: `${baseUrl}og-default.jpg`,
+  url: baseUrl,
+  telephone: `+1${shop.phone}`,
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: shop.address.line1,
+    addressLocality: shop.address.city,
+    addressRegion: shop.address.state,
+    postalCode: shop.address.zip,
+    addressCountry: 'US',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: shop.geo.lat, longitude: shop.geo.lng },
+  openingHoursSpecification: shop.hours.filter(h => h.open).map(h => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: dayNames[h.day],
+    opens: h.open,
+    closes: h.close,
+  })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: shop.reviewStats.average,
+    reviewCount: shop.reviewStats.count,
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Services',
+    itemListElement: services.map(s => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, description: s.summary },
+    })),
+  },
+};
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(businessJsonLd)} />

@@ -1,0 +1,28 @@
+import type { Service } from './types';
+
+export const services: Service[] = [
+  { id: 'maintenance', category: 'maintenance', name: 'Standard Maintenance',
+    summary: 'Scheduled service to keep your vehicle running like new.',
+    body: 'Factory-interval inspections, fluid services, filter changes, belt and hose checks. We follow your manufacturer schedule and explain exactly what we found — never a list of upsells.' },
+  { id: 'diagnostics', category: 'diagnostics', name: 'Engine Service & Diagnostics',
+    summary: 'Check engine light, weird noises, performance issues.',
+    body: "OEM-level diagnostic scanners across most makes. We isolate the cause before we touch a wrench so you’re not paying for guesses." },
+  { id: 'hvac', category: 'hvac', name: 'Heating & A/C',
+    summary: 'Cabin comfort year-round — diagnosis, recharge, full system service.',
+    body: 'Compressor, evaporator, condenser, and refrigerant work. Leak detection included before any recharge.' },
+  { id: 'electrical', category: 'electrical', name: 'Auto Electrical',
+    summary: 'Starters, alternators, batteries, wiring, accessories.',
+    body: "From dead batteries to chasing intermittent gremlins. Common on older 4×4s — we’ve seen most of them." },
+  { id: 'exhaust', category: 'exhaust', name: 'Exhaust',
+    summary: 'Full exhaust repair, replacement, and custom work.',
+    body: 'Welding, custom routing, cat-back installs for trucks and vans. We do clean work that lasts.' },
+  { id: 'brakes', category: 'brakes', name: 'Brakes',
+    summary: "Pads, rotors, lines, hardware — pickup-grade or premium.",
+    body: "Inspection is always honest. If you don’t need brakes, we’ll tell you." },
+  { id: 'oil_change', category: 'oil_change', name: 'Oil Changes',
+    summary: 'Conventional, synthetic blend, or full synthetic.',
+    body: 'Usually same-day. Includes a free top-to-bottom visual inspection.' },
+  { id: '4x4_custom', category: '4x4_custom', name: 'Off-Road & 4×4 Customization',
+    summary: 'Lift kits, coil springs, control arms, long-travel builds, bumpers, full builds.',
+    body: "This is what makes us different. Chance builds rigs the way he’d build his own — proper alignment, geometry that works, no compromises that bite you on the trail." },
+];

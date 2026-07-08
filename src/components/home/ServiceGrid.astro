@@ -1,0 +1,27 @@
+---
+import { services } from '@/data/services';
+import Eyebrow from '@/components/Eyebrow.astro';
+
+const icons: Record<string, string> = {
+  maintenance: '🔧', diagnostics: '🔍', hvac: '❄️', electrical: '⚡',
+  exhaust: '🚿', brakes: '🛞', oil_change: '🛢️', '4x4_custom': '🏔️',
+};
+const featured = services.filter(s => s.category !== '4x4_custom').slice(0, 6);
+---
+<section class="bg-[var(--color-paper)] py-20 md:py-28">
+  <div class="container-default">
+    <div class="text-center mb-12">
+      <Eyebrow class="!text-[var(--color-ember)]">What we work on</Eyebrow>
+      <h2 class="mt-2 text-4xl md:text-5xl">Full-service auto shop.</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {featured.map(s => (
+        <a href={`/services#${s.id}`} class="block p-6 bg-white border border-[var(--color-ink)]/10 rounded-[var(--radius-card)] hover:border-[var(--color-ember)] transition-colors group">
+          <div class="text-2xl mb-3" aria-hidden="true">{icons[s.id] ?? '🔧'}</div>
+          <h3 class="text-xl group-hover:text-[var(--color-ember)] transition-colors">{s.name}</h3>
+          <p class="mt-2 text-sm text-[var(--color-ink)]/75 leading-relaxed">{s.summary}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

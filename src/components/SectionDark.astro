@@ -1,0 +1,5 @@
+---
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+---
+<section class={`bg-[var(--color-ink)] text-[var(--color-paper)] py-20 md:py-28 ${cls}`}><div class="container-default"><slot /></div></section>

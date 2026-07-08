@@ -1,0 +1,16 @@
+---
+import Button from '@/components/Button.astro';
+import CallButton from '@/components/CallButton.astro';
+---
+<section class="bg-[var(--color-ember)] text-[var(--color-paper)] py-16">
+  <div class="container-default flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div>
+      <h2 class="text-3xl md:text-4xl">Ready when you are.</h2>
+      <p class="mt-2 text-[var(--color-paper)]/90">Book online or give us a call — we'll find a slot that works.</p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <Button href="/book" variant="ghost-on-dark" size="lg" class="!bg-[var(--color-paper)] !text-[var(--color-ember)] !border-transparent hover:!bg-[var(--color-bone)]">Book appointment</Button>
+      <CallButton variant="ghost" />
+    </div>
+  </div>
+</section>

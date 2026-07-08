@@ -1,0 +1,24 @@
+---
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+---
+<section class="bg-[var(--color-paper)]">
+  <div class="grid md:grid-cols-2">
+    <div class="bg-[var(--color-bone)] p-12 md:p-20 flex flex-col justify-center">
+      <Eyebrow class="!text-[var(--color-ember)]">Honest Auto Repair</Eyebrow>
+      <h2 class="mt-4 text-4xl md:text-5xl">Everyday Maintenance & Repair</h2>
+      <p class="mt-4 text-lg leading-relaxed text-[var(--color-ink)]/85 max-w-md">
+        Oil, brakes, A/C, electrical, diagnostics. The work your car needs, explained clearly, priced fairly.
+      </p>
+      <div class="mt-6"><Button href="/services" variant="ghost-on-light">See services</Button></div>
+    </div>
+    <div class="bg-[var(--color-ink)] text-[var(--color-paper)] p-12 md:p-20 flex flex-col justify-center">
+      <Eyebrow>4×4 Customization</Eyebrow>
+      <h2 class="mt-4 text-4xl md:text-5xl">Lift Kits, Long-Travel, Full Builds</h2>
+      <p class="mt-4 text-lg leading-relaxed text-[var(--color-bone)] max-w-md">
+        From a clean leveling kit to a Kings long-travel build — Chance builds rigs the way he'd build his own.
+      </p>
+      <div class="mt-6"><Button href="/builds" variant="ghost-on-dark">See builds</Button></div>
+    </div>
+  </div>
+</section>

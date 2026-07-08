@@ -1,0 +1,42 @@
+---
+import CallButton from './CallButton.astro';
+const certs = ['ASE Certified', 'BBB', 'NAPA', 'O\'Reilly', 'Synchrony Car Care'];
+const services = [
+  ['/services#maintenance', 'Standard Maintenance'],
+  ['/services#diagnostics', 'Engine & Diagnostics'],
+  ['/services#hvac', 'Heating & A/C'],
+  ['/services#electrical', 'Auto Electrical'],
+  ['/services#exhaust', 'Exhaust'],
+  ['/services#brakes', 'Brakes'],
+  ['/services#4x4', '4×4 Customization'],
+];
+---
+<footer class="bg-[var(--color-char)] text-[var(--color-paper)] border-t border-[var(--color-bone)]/10">
+  <div class="container-default grid gap-12 py-16 md:grid-cols-3">
+    <div>
+      <h3 class="eyebrow mb-4">Visit</h3>
+      <address class="not-italic leading-relaxed">
+        Pappytackle 4×4 &amp; Auto<br/>
+        710 Sunset Pond Ln<br/>
+        Bellingham, WA 98226
+      </address>
+      <p class="mt-4">Mon–Fri 8a–5p<br/>Sat &amp; Sun closed</p>
+      <div class="mt-6"><CallButton variant="primary" /></div>
+    </div>
+    <div>
+      <h3 class="eyebrow mb-4">Services</h3>
+      <ul class="space-y-2">
+        {services.map(([h, l]) => <li><a href={h} class="hover:text-[var(--color-gold)] transition-colors">{l}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3 class="eyebrow mb-4">Trusted by</h3>
+      <ul class="flex flex-wrap gap-2">
+        {certs.map(c => <li class="px-3 py-1 border border-[var(--color-bone)]/25 rounded-full text-sm">{c}</li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-[var(--color-bone)]/10 py-6 text-center text-sm text-[var(--color-bone)]/70">
+    © 2026 Pappytackle 4×4 &amp; Auto · Bellingham, WA
+  </div>
+</footer>

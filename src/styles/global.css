@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@import "@fontsource-variable/big-shoulders-display";
+@import "@fontsource-variable/open-sans";
+
+@theme {
+  /* Brand palette (from logo guide) */
+  --color-ink: #092837;
+  --color-ink-2: #0d3447;
+  --color-char: #06202d;
+  --color-ember: #b72e26;
+  --color-ember-dark: #921f1a;
+  --color-gold: #dfa626;
+  --color-gold-light: #ecc065;
+  --color-bone: #d8d3bd;
+  --color-paper: #f5f2e8;
+
+  /* Type */
+  --font-display: "Big Shoulders Display Variable", system-ui, sans-serif;
+  --font-body: "Open Sans Variable", system-ui, sans-serif;
+
+  /* Radii */
+  --radius-card: 12px;
+  --radius-button: 6px;
+}
+
+@layer base {
+  html { color-scheme: dark; }
+  body {
+    font-family: var(--font-body);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 16px;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    color: var(--color-gold);
+  }
+  .container-default { max-width: 1200px; margin-inline: auto; padding-inline: 1.5rem; }
+  .container-wide { max-width: 1440px; margin-inline: auto; padding-inline: 1.5rem; }
+  .container-narrow { max-width: 720px; margin-inline: auto; padding-inline: 1.5rem; }
+  .container-prose { max-width: 65ch; margin-inline: auto; padding-inline: 1.5rem; }
+}

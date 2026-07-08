@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionLight from '@/components/SectionLight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import CallButton from '@/components/CallButton.astro';
+import BookingForm from '@/components/book/BookingForm';
+
+const url = Astro.url;
+const defaultCategory = url.searchParams.get('category') ?? undefined;
+const defaultDesc = url.searchParams.get('desc') ?? undefined;
+---
+<BaseLayout title="Book Appointment" description="Request an appointment at Pappytackle 4×4 & Auto in Bellingham, WA.">
+  <SectionLight tone="paper">
+    <Eyebrow class="!text-[var(--color-ember)]">Schedule</Eyebrow>
+    <h1 class="mt-2 text-5xl md:text-6xl">Book an Appointment</h1>
+    <p class="mt-4 max-w-2xl text-lg">Tell us what's going on and we'll get back to you with a slot. Prefer to talk?</p>
+    <div class="mt-2"><CallButton variant="ghost" class="!text-[var(--color-ink)] !border-[var(--color-ink)]/30" /></div>
+    <div class="mt-10"><BookingForm client:load defaultCategory={defaultCategory} defaultDesc={defaultDesc} /></div>
+  </SectionLight>
+</BaseLayout>
