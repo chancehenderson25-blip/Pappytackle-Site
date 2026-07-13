@@ -1,9 +1,18 @@
 import type { APIRoute } from 'astro';
 import { streamReply } from '@/lib/ai/features/assistantReply';
+import { checkRateLimit, clientIp } from '@/lib/rateLimit';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  const limit = await checkRateLimit(clientIp(request, clientAddress));
+  if (!limit.ok) {
+    return new Response('Too many requests. Please try again later.', {
+      status: 429,
+      headers: { 'retry-after': String(limit.retryAfterSeconds) },
+    });
+  }
+
   let body: unknown;
   try { body = await request.json(); } catch {
     return new Response('Bad JSON', { status: 400 });
