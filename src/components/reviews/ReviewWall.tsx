@@ -2,20 +2,50 @@ import { useState, useMemo } from 'react';
 
 interface Review { id: string; rating: 1|2|3|4|5; name: string; date: string; body: string; }
 
+type SortOrder = 'newest' | 'oldest' | 'rating_high' | 'rating_low';
+const SORTS: { v: SortOrder; l: string }[] = [
+  { v: 'newest', l: 'Newest first' },
+  { v: 'oldest', l: 'Oldest first' },
+  { v: 'rating_high', l: 'Highest rated' },
+  { v: 'rating_low', l: 'Lowest rated' },
+];
+
 export default function ReviewWall({ reviews }: { reviews: Review[] }) {
   const [filter, setFilter] = useState<5 | 4 | 3>(5);
-  const filtered = useMemo(() => reviews.filter(r => r.rating >= filter), [filter, reviews]);
+  const [sort, setSort] = useState<SortOrder>('newest');
+
+  const filtered = useMemo(() => {
+    const list = reviews.filter(r => r.rating >= filter);
+    return [...list].sort((a, b) => {
+      switch (sort) {
+        case 'newest': return b.date.localeCompare(a.date);
+        case 'oldest': return a.date.localeCompare(b.date);
+        case 'rating_high': return b.rating - a.rating;
+        case 'rating_low': return a.rating - b.rating;
+      }
+    });
+  }, [filter, sort, reviews]);
+
   const filters: { v: 5|4|3; l: string }[] = [{ v: 5, l: '5 stars' }, { v: 4, l: '4+ stars' }, { v: 3, l: '3+ stars' }];
 
   return (
     <div>
-      <div className="flex gap-2 mb-8">
-        {filters.map(f => (
-          <button key={f.v} onClick={() => setFilter(f.v)}
-            className={`px-4 py-2 font-display font-bold uppercase text-sm rounded ${filter === f.v ? 'bg-[var(--color-ember)] text-[var(--color-paper)]' : 'border border-[var(--color-ink)]/25 hover:border-[var(--color-ember)]'}`}>
-            {f.l}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-8">
+        <div className="flex gap-2">
+          {filters.map(f => (
+            <button key={f.v} onClick={() => setFilter(f.v)}
+              className={`px-4 py-2 font-display font-bold uppercase text-sm rounded ${filter === f.v ? 'bg-[var(--color-ember)] text-[var(--color-paper)]' : 'border border-[var(--color-ink)]/25 hover:border-[var(--color-ember)]'}`}>
+              {f.l}
+            </button>
+          ))}
+        </div>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-[var(--color-ink)]/65">Sort by</span>
+          <select value={sort} onChange={e => setSort(e.target.value as SortOrder)}
+            className="px-3 py-2 border border-[var(--color-ink)]/25 rounded bg-white focus:border-[var(--color-ember)] focus:outline-none">
+            {SORTS.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+          </select>
+        </label>
       </div>
       <div className="grid md:grid-cols-2 gap-6">
         {filtered.map(r => (
