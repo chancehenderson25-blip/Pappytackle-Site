@@ -115,7 +115,7 @@ export default function ChatWidget() {
             ))}
           </div>
           <form className="border-t border-[var(--color-bone)]/15 p-3 flex gap-2" onSubmit={e => { e.preventDefault(); if (input.trim() && !streaming) send(input.trim()); }}>
-            <input value={input} onChange={e => setInput(e.target.value)} placeholder="Type a question…" maxLength={4000}
+            <input value={input} onChange={e => setInput(e.target.value)} placeholder="Type a question…" maxLength={500}
               className="flex-1 px-3 py-2 bg-[var(--color-ink-2)] border border-[var(--color-bone)]/15 rounded text-[var(--color-paper)] focus:border-[var(--color-gold)] focus:outline-none" />
             <button type="submit" disabled={streaming || !input.trim()}
               className="px-3 py-2 bg-[var(--color-ember)] rounded disabled:opacity-50">→</button>

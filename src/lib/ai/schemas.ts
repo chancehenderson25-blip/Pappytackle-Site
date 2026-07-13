@@ -48,9 +48,17 @@ export const SuggestInputZ = z.object({
 export const SearchInputZ = z.object({
   query: z.string().min(2).max(200),
 });
+// Only user-authored turns are capped at 500 chars — assistant replies
+// (sent back as history on the next request) can run longer than that.
+const ChatMessageZ = z.object({
+  role: z.enum(['user', 'assistant']),
+  content: z.string().min(1).max(4000),
+}).superRefine((msg, ctx) => {
+  if (msg.role === 'user' && msg.content.length > 500) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Message too long (max 500 characters).', path: ['content'] });
+  }
+});
+
 export const ChatInputZ = z.object({
-  messages: z.array(z.object({
-    role: z.enum(['user', 'assistant']),
-    content: z.string().min(1).max(4000),
-  })).min(1).max(40),
+  messages: z.array(ChatMessageZ).min(1).max(40),
 });
