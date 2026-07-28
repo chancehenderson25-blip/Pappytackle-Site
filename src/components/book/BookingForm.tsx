@@ -1,15 +1,9 @@
 import { useState } from 'react';
+import { services } from '@/data/services';
 
-const CATEGORIES = [
-  ['maintenance', 'Standard Maintenance'],
-  ['diagnostics', 'Engine & Diagnostics'],
-  ['hvac', 'Heating & A/C'],
-  ['electrical', 'Auto Electrical'],
-  ['exhaust', 'Exhaust'],
-  ['brakes', 'Brakes'],
-  ['oil_change', 'Oil Change'],
-  ['4x4_custom', '4×4 Customization'],
-] as const;
+// Derived from services.ts so the dropdown can't drift out of sync with the
+// names shown on the services page and in the booking email.
+const CATEGORIES = services.map(s => [s.category, s.name] as const);
 
 export default function BookingForm({ defaultCategory, defaultDesc }: { defaultCategory?: string; defaultDesc?: string }) {
   const [submitting, setSubmitting] = useState(false);

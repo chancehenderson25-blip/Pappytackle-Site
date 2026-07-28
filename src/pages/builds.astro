@@ -13,6 +13,9 @@ const items = builds.flatMap(b => {
     const p = photoById(pid)!;
     return {
       id: `${b.id}-${idx}`,
+      // Only the first photo of each build carries the build's own id, so
+      // deep links like /builds#lexus-gx-long-travel land on it.
+      anchorId: idx === 0 ? b.id : undefined,
       title: b.title,
       vehicle: b.vehicle,
       summary: b.summary,

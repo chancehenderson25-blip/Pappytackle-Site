@@ -5,6 +5,7 @@ import Eyebrow from '@/components/Eyebrow.astro';
 import Button from '@/components/Button.astro';
 import CallButton from '@/components/CallButton.astro';
 import { shop } from '@/data/shop';
+import { formatDayHours } from '@/lib/formatHours';
 
 const { lat, lng } = shop.geo;
 const bbox = `${lng - 0.01},${lat - 0.005},${lng + 0.01},${lat + 0.005}`;
@@ -24,7 +25,7 @@ const addr = encodeURIComponent(`${shop.address.line1}, ${shop.address.city}, ${
         <h2 class="mt-8 text-2xl">Hours</h2>
         <ul class="mt-3 leading-relaxed">
           {shop.hours.map(h => (
-            <li class="flex justify-between max-w-xs"><span>{h.day}</span><span>{h.open ? `${h.open}–${h.close}` : 'Closed'}</span></li>
+            <li class="flex justify-between max-w-xs"><span>{h.day}</span><span>{formatDayHours(h)}</span></li>
           ))}
         </ul>
         <div class="mt-8 flex flex-wrap gap-3">

@@ -4,9 +4,11 @@ import Eyebrow from '@/components/Eyebrow.astro';
 
 const icons: Record<string, string> = {
   maintenance: '🔧', diagnostics: '🔍', hvac: '❄️', electrical: '⚡',
-  exhaust: '🚿', brakes: '🛞', oil_change: '🛢️', '4x4_custom': '🏔️',
+  exhaust: '💨', brakes: '🛞', oil_change: '🛢️', '4x4_custom': '🏔️',
 };
-const featured = services.filter(s => s.category !== '4x4_custom').slice(0, 6);
+// All standard services — the 4×4 work gets its own dedicated section.
+// Deliberately not sliced: an auto shop shouldn't hide oil changes.
+const featured = services.filter(s => s.category !== '4x4_custom');
 ---
 <section class="bg-[var(--color-paper)] py-20 md:py-28">
   <div class="container-default">

@@ -4,6 +4,7 @@ import logoNavy from '@/assets/logos/logo-full-navy.png';
 import Button from '@/components/Button.astro';
 import CallButton from '@/components/CallButton.astro';
 import { shop } from '@/data/shop';
+import { formatHourLines } from '@/lib/formatHours';
 
 // Also reachable directly (not just via the maintenance-mode rewrite), so it
 // always reports 503 + Retry-After rather than only when middleware sends
@@ -11,7 +12,7 @@ import { shop } from '@/data/shop';
 Astro.response.status = 503;
 Astro.response.headers.set('Retry-After', '3600');
 
-const openDays = shop.hours.filter(h => h.open);
+const hourLines = formatHourLines(shop.hours);
 ---
 <!doctype html>
 <html lang="en">
@@ -45,7 +46,7 @@ const openDays = shop.hours.filter(h => h.open);
         {shop.address.city}, {shop.address.state} {shop.address.zip}
       </address>
       <p class="mt-3">
-        {openDays.map(h => `${h.day} ${h.open}–${h.close}`).join(' · ')}
+        {hourLines.join(' · ')}
       </p>
     </div>
   </div>

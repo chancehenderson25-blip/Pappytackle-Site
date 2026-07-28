@@ -11,7 +11,7 @@ const CATS: { id: Cat; label: string }[] = [
   { id: 'full', label: 'Full Builds' },
 ];
 
-interface Item { id: string; title: string; vehicle: string; summary: string; category: Exclude<Cat,'all'>; photoSrc: string; photoAlt: string; }
+interface Item { id: string; anchorId?: string; title: string; vehicle: string; summary: string; category: Exclude<Cat,'all'>; photoSrc: string; photoAlt: string; }
 
 export default function BuildGallery({ items }: { items: Item[] }) {
   const [filter, setFilter] = useState<Cat>('all');
@@ -31,7 +31,7 @@ export default function BuildGallery({ items }: { items: Item[] }) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map(i => (
-          <button key={i.id} onClick={() => setOpen(i)} className="group block text-left">
+          <button key={i.id} id={i.anchorId} onClick={() => setOpen(i)} className="group block text-left scroll-mt-24">
             <div className="aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-ink-2)]">
               <img src={i.photoSrc} alt={i.photoAlt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
             </div>

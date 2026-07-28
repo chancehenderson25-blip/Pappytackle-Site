@@ -18,6 +18,6 @@ export const shop = {
     { day: 'Sat', open: null, close: null },
     { day: 'Sun', open: null, close: null },
   ],
-  certifications: ['ASE Certified', 'BBB', 'NAPA', 'O’Reilly', 'Synchrony Car Care'],
+  certifications: ['ASE Certified', 'BBB', 'NAPA', "O'Reilly", 'Synchrony Car Care'],
   reviewStats: { average: 5.0, count: 36 },
 } as const;

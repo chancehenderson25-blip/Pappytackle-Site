@@ -4,6 +4,7 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { Resend } from 'resend';
+import { services } from '@/data/services';
 
 export const prerender = false;
 
@@ -18,16 +19,11 @@ const BookingZ = z.object({
   notes: z.string().max(2000).optional(),
 });
 
-const CATEGORY_LABELS: Record<string, string> = {
-  maintenance: 'Standard Maintenance',
-  diagnostics: 'Engine & Diagnostics',
-  hvac: 'Heating & A/C',
-  electrical: 'Auto Electrical',
-  exhaust: 'Exhaust',
-  brakes: 'Brakes',
-  oil_change: 'Oil Change',
-  '4x4_custom': '4×4 Customization',
-};
+// Derived from services.ts so the email label matches what the customer
+// actually picked on the site.
+const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
+  services.map(s => [s.category, s.name]),
+);
 
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY ?? process.env.RESEND_API_KEY;
 const TO_EMAIL = import.meta.env.BOOKINGS_TO_EMAIL ?? process.env.BOOKINGS_TO_EMAIL ?? '';

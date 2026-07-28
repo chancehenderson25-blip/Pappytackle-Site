@@ -34,7 +34,7 @@ const fourByFour = services.find(s => s.category === '4x4_custom')!;
     <div class="grid lg:grid-cols-2 gap-12 items-center py-20 md:py-28">
       <div>
         <BadgeDiamond color="gold">The differentiator</BadgeDiamond>
-        <h2 id="4x4" class="mt-4 text-5xl md:text-6xl">{fourByFour.name}</h2>
+        <h2 id={fourByFour.id} class="mt-4 text-5xl md:text-6xl">{fourByFour.name}</h2>
         <p class="mt-4 text-lg text-[var(--color-bone)] leading-relaxed">{fourByFour.body}</p>
         <ul class="mt-8 grid sm:grid-cols-2 gap-3 text-sm">
           {['Bolt-on lift kits','Coil springs & control arms','Long-travel suspension','Bumpers & armor','Custom fab work','Full builds'].map(t => (
