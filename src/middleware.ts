@@ -8,7 +8,13 @@ const EXEMPT_PATHS = new Set(['/maintenance', '/book', '/book/thanks']);
 const EXEMPT_PREFIXES = ['/api/bookings', '/_astro/', '/favicon', '/og-default', '/robots.txt', '/sitemap', '/videos/'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const raw = import.meta.env.MAINTENANCE_MODE ?? process.env.MAINTENANCE_MODE ?? '';
+  // process.env only, deliberately not import.meta.env — Vite statically
+  // resolves import.meta.env.X for non-PUBLIC_ vars at build time using the
+  // build machine's environment, which produced inconsistent results
+  // between local builds and Vercel's build. process.env is always a live
+  // runtime lookup, no build-time substitution risk. String() guards
+  // against whatever produced a non-string value in production before.
+  const raw = String(process.env.MAINTENANCE_MODE ?? '');
   const enabled = raw.trim().toLowerCase() === 'true';
   if (!enabled) return next();
 
