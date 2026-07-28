@@ -10,6 +10,44 @@ that file is the current picture.
 
 ---
 
+## 2026-07-28 (cont'd) — Every image on the site was broken, then 28MB of them
+
+Owner reported no photos or logos loading. Two distinct problems, the second
+only visible after fixing the first.
+
+**All images 404'd in production.** `/_image?href=...` returned "Not Found"
+while the underlying `/_astro/*.png` served fine at 200 — so the files were
+never the issue, Astro's image-optimization endpoint was. It doesn't work on
+Vercel in server output (the deployed function can't read originals out of
+the static output). It *does* work under `astro dev`, which is why nothing
+caught it locally — same category of trap as the earlier `MAINTENANCE_MODE`
+crash. Fixed with `vercel({ imageService: true })`, routing images through
+Vercel's own optimization API.
+
+**Then: the builds page was shipping 28MB.** Found while verifying the fix
+rather than assuming it was done. `photos.ts` stored only `src.src` — the
+resolved URL string — discarding the `ImageMetadata`, so `BuildGallery` had
+nothing to optimize with and pointed `<img>` straight at 4000px originals.
+Measured on production: 10 images, 30,226,414 bytes. `Photo` now carries
+`ImageMetadata` and `builds.astro` runs each through `getImage()` for a 640px
+grid thumbnail plus a 1920px lightbox version.
+
+**Also: quality defaulted to 100.** `@astrojs/vercel`'s image service falls
+back to `quality = 100` when unspecified, which additionally makes Vercel skip
+WebP entirely at large widths. `IMAGE_QUALITY = 75` now lives in
+`src/lib/imageDefaults.ts` and is applied at all seven `<Image>` call sites.
+
+Measured on production, before → after:
+
+- `/builds` gallery: 28 MB → 388 KB across 12 images, all WebP (~76x)
+- Homepage hero: 2.75 MB JPEG → 374 KB WebP (~7x)
+
+A separate small bug also fixed this session: `/_image` wasn't exempt from the
+maintenance-mode rewrite, so the maintenance page's own logo 503'd — the
+outage page rendered with a broken image. Reproduced by driving the compiled
+middleware directly, since a local `.env` can't exercise that path (the toggle
+reads `process.env`, and Vite loads `.env` into `import.meta.env`).
+
 ## 2026-07-28 (cont'd) — Content consistency pass, then shop address + hours change
 
 **Proofreading pass** across every page and data file. Found and fixed: dead

@@ -73,6 +73,23 @@ original design intent, still accurate for overall architecture.
   compiled output in `.vercel/output/_functions/` (or equivalent), not just
   `astro dev` — dev mode is not a reliable stand-in for adapter build
   behavior.
+- **Images go through Vercel's Image Optimization API**, not Astro's own
+  `/_image` endpoint. `astro.config.mjs` sets `vercel({ imageService: true })`
+  — don't remove it. Astro's `/_image` returns 404 in production on Vercel
+  (the deployed function can't read originals out of the static output), so
+  without this every `<Image>` on the site renders broken, while the raw
+  `/_astro/*` files still serve fine. It works under `astro dev`, so local
+  testing will not catch it.
+- **Always pass `quality={IMAGE_QUALITY}`** (`src/lib/imageDefaults.ts`, = 75)
+  to `<Image>`. The Vercel image service silently defaults to `quality = 100`,
+  which both bloats files and makes Vercel skip WebP conversion at large
+  widths — the hero shipped as a 2.75MB JPEG instead of a 374KB WebP.
+- **`src/data/photos.ts` stores `ImageMetadata`, not a URL string.** It must
+  stay that way: an earlier version kept only `src.src`, which left
+  `BuildGallery` no way to optimize and had it render full-resolution
+  originals — 28MB on `/builds` alone. Anything rendering a photo should run
+  it through `getImage()` (see `src/pages/builds.astro`) rather than pointing
+  an `<img>` at a raw `/_astro/*` path.
 - Vercel's env var UI has silently saved an empty value at least once
   (`BOOKINGS_TO_EMAIL` ended up blank despite the owner entering a value,
   causing a confusing downstream Resend error that looked unrelated). If a
