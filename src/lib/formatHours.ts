@@ -6,17 +6,17 @@ type Hour = {
   readonly note?: string;
 };
 
-/** "08:00" -> "8a", "17:00" -> "5p", "08:30" -> "8:30a" */
+/** "08:00" -> "8am", "17:00" -> "5pm", "09:30" -> "9:30am" */
 export function formatTime(t: string): string {
   const [hRaw, mRaw] = t.split(':');
   let h = Number(hRaw);
   const m = Number(mRaw);
-  const suffix = h >= 12 ? 'p' : 'a';
+  const suffix = h >= 12 ? 'pm' : 'am';
   h = h % 12 || 12;
   return m ? `${h}:${String(m).padStart(2, '0')}${suffix}` : `${h}${suffix}`;
 }
 
-/** "9:30a–6:30p" for an open day; the day's note (e.g. "By request") or "Closed" otherwise. */
+/** "9:30am–6:30pm" for an open day; the day's note (e.g. "By request") or "Closed" otherwise. */
 export function formatDayHours(h: Hour): string {
   if (h.open && h.close) return `${formatTime(h.open)}–${formatTime(h.close)}`;
   return h.note ?? 'Closed';
