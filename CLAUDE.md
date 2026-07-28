@@ -22,6 +22,8 @@ original design intent, still accurate for overall architecture.
 - `service@pappytackle.com` is verified in Resend; booking emails send from
   `bookings@pappytackle.com` to the real shop inbox.
 - Vercel Web Analytics is enabled and confirmed recording pageviews.
+- The old WordPress site/hosting (managed via "Mitchell") is fully
+  cancelled — confirmed on the owner's billing, not just DNS-unreachable.
 - Repo: `github.com/chancehenderson25-blip/Pappytackle-Site`, `main` branch,
   auto-deploys on push.
 - Node/npm are installed locally now (weren't at project start).
@@ -37,9 +39,6 @@ original design intent, still accurate for overall architecture.
   4×4 Builds gallery slots are still placeholder/`TodoBlock` entries.
 - **6 sample reviews** in `src/data/reviews.ts` are marked `_isSample: true`
   — not real customer reviews yet.
-- **Old WP Engine/WordPress hosting**: no longer receiving any traffic (DNS
-  fully points at Vercel now) but not yet formally decommissioned/cancelled
-  — owner's call on timing.
 - **No SPF record at the root domain** (`pappytackle.com` apex) — only at
   the `send` subdomain Resend uses. Doesn't affect the site, but weakens
   deliverability for mail sent directly from `service@pappytackle.com`.

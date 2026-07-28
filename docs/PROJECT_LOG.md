@@ -30,11 +30,14 @@ showed verified — turned out `BOOKINGS_TO_EMAIL` had silently saved as
 empty in Vercel's UI (owner had entered a value, it didn't stick). Once
 re-entered and redeployed, confirmed working with a real test booking.
 
-**Open at end of session**: same deferred items as before (Google Reviews
-API sync, real photos, real reviews) plus two new small ones — deciding
-whether/when to cancel the now-unused WP Engine hosting, and no SPF record
-at the root domain (pre-existing gap, only affects deliverability of mail
-sent directly from `service@pappytackle.com`, not the site itself).
+**Old WordPress hosting cancelled.** Owner cancelled the subscription with
+"Mitchell," who originally created/managed the old site — confirmed on
+billing, so this is a real cancellation, not just DNS pointing elsewhere.
+
+**Open at end of session**: same deferred content items as before (Google
+Reviews API sync, real photos, real reviews), plus the pre-existing gap of
+no SPF record at the root domain (only affects deliverability of mail sent
+directly from `service@pappytackle.com`, not the site itself).
 
 ## 2026-07-23 (cont'd) — DNS cutover, maintenance mode, and a real production bug
 
