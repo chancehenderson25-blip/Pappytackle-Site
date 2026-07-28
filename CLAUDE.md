@@ -60,6 +60,17 @@ original design intent, still accurate for overall architecture.
 - Deploy adapter is `@astrojs/vercel` (v8 line — the project is on Astro 5,
   and `@astrojs/vercel` v11+ requires Astro 7). Don't blindly `npm install
   @astrojs/vercel@latest`.
+- **For any new server-only env var (like `MAINTENANCE_MODE`), read it via
+  `process.env.X` only — not `import.meta.env.X`.** For non-`PUBLIC_` vars,
+  Vite statically resolves `import.meta.env.X` at build time using whatever
+  environment the build runs in, which caused a real production crash
+  (`raw.trim is not a function`) that Astro's local dev server didn't
+  reproduce — dev mode and the actual built bundle handled it differently.
+  `process.env.X` is always a live runtime lookup, no build-time surprises.
+  When testing a new env-var-gated code path, verify against the actual
+  compiled output in `.vercel/output/_functions/` (or equivalent), not just
+  `astro dev` — dev mode is not a reliable stand-in for adapter build
+  behavior.
 
 ## Taking the site down for maintenance
 

@@ -10,6 +10,34 @@ that file is the current picture.
 
 ---
 
+## 2026-07-23 (cont'd) — DNS cutover, maintenance mode, and a real production bug
+
+**DNS cutover to Vercel completed.** Owner's mentor added the A record
+(`@` → `216.198.79.1`, the actual value from Vercel's dashboard, not the
+generic default docs suggest) and the four Resend verification records
+(DKIM, MX, SPF, DMARC — DKIM verified as an exact character-for-character
+match against Resend's dashboard before sending). `www.pappytackle.com` was
+deliberately left pointing at the old WordPress host per owner's choice, so
+it currently serves the *old* site while the apex serves the new one —
+revisit if that becomes a problem.
+
+**Added a maintenance-mode toggle** (`MAINTENANCE_MODE` env var +
+`src/middleware.ts` + `src/pages/maintenance.astro`): gates the whole site
+behind a branded "be right back" page except `/book`, `/book/thanks`, and
+`/api/bookings`, so leads aren't lost during an outage.
+
+**Shipped a real production bug** in the first version: checked
+`import.meta.env.MAINTENANCE_MODE ?? process.env.MAINTENANCE_MODE`, verified
+only against Astro's local dev server, and it crashed on Vercel
+(`raw.trim is not a function`) — dev mode doesn't reproduce how Vite
+statically resolves non-`PUBLIC_` `import.meta.env.X` vars at build time,
+which behaved differently between the local build machine and Vercel's.
+Fixed by reading `process.env` only (always a live runtime lookup) and
+verified properly this time by executing the actual compiled
+`.vercel/output/_functions/_astro-internal_middleware.mjs` directly via
+Node with multiple env values and paths, not just `astro dev`. Lesson
+captured in `CLAUDE.md` for any future env-var-gated code path.
+
 ## 2026-07-23 — Vercel launch, hardening, reviews sort, continuity docs
 
 **Deployed the site.** Swapped `@astrojs/node` for `@astrojs/vercel` (v8 line,
