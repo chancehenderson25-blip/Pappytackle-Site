@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { IMAGE_QUALITY } from '@/lib/imageDefaults';
 import hero from '@/assets/photos/lexus-gx/long-travel-01.jpg';
 import Button from '@/components/Button.astro';
 import CallButton from '@/components/CallButton.astro';
@@ -11,7 +12,7 @@ const videoSrc = '/videos/lexus-gx-hero.mp4';
 const videoWebm = '/videos/lexus-gx-hero.webm';
 ---
 <section class="relative min-h-[100svh] flex items-end overflow-hidden bg-[var(--color-char)]">
-  <Image src={hero} alt="Lexus GX long-travel build" class="absolute inset-0 w-full h-full object-cover opacity-90" widths={[960,1280,1920,2560]} sizes="100vw" loading="eager" fetchpriority="high" />
+  <Image src={hero} alt="Lexus GX long-travel build" class="absolute inset-0 w-full h-full object-cover opacity-90" widths={[960,1280,1920,2560]} sizes="100vw" loading="eager" fetchpriority="high" quality={IMAGE_QUALITY} />
   {hasVideo && (
     <video class="absolute inset-0 w-full h-full object-cover opacity-90" autoplay muted loop playsinline poster={hero.src}>
       <source src={videoWebm} type="video/webm" />

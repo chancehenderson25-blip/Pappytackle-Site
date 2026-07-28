@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { IMAGE_QUALITY } from '@/lib/imageDefaults';
 import { services } from '@/data/services';
 import { Image } from 'astro:assets';
 import SectionLight from '@/components/SectionLight.astro';
@@ -44,8 +45,8 @@ const fourByFour = services.find(s => s.category === '4x4_custom')!;
         <div class="mt-8"><DescribeBuildIsland client:load /></div>
       </div>
       <div class="grid grid-cols-2 gap-3">
-        <Image src={heroSvc} alt="Lexus GX long-travel build side profile" class="rounded-[var(--radius-card)] aspect-[4/5] object-cover" widths={[400,600,800]} sizes="(min-width:1024px) 25vw, 50vw" />
-        <Image src={bumperImg} alt="2017 Tacoma with custom bumper" class="rounded-[var(--radius-card)] aspect-[4/5] object-cover mt-12" widths={[400,600,800]} sizes="(min-width:1024px) 25vw, 50vw" />
+        <Image src={heroSvc} alt="Lexus GX long-travel build side profile" class="rounded-[var(--radius-card)] aspect-[4/5] object-cover" widths={[400,600,800]} sizes="(min-width:1024px) 25vw, 50vw" quality={IMAGE_QUALITY} />
+        <Image src={bumperImg} alt="2017 Tacoma with custom bumper" class="rounded-[var(--radius-card)] aspect-[4/5] object-cover mt-12" widths={[400,600,800]} sizes="(min-width:1024px) 25vw, 50vw" quality={IMAGE_QUALITY} />
       </div>
     </div>
   </SectionDark>

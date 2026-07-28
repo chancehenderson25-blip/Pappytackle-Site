@@ -21,10 +21,14 @@ export interface RecentJob {
 export interface Photo {
   id: string;
   category: 'lexus-gx' | 'tacomas' | 'broncos' | 'exhaust' | 'vans';
-  src: string;
+  /**
+   * The imported image itself, not a resolved URL string. Keeping the metadata
+   * is what lets callers run it through `getImage()` — an earlier version
+   * stored only `src.src`, so the builds gallery had no choice but to render
+   * full-resolution originals (28MB on one page).
+   */
+  image: ImageMetadata;
   alt: string;
-  width: number;
-  height: number;
 }
 
 export interface Review {

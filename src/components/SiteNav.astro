@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { IMAGE_QUALITY } from '@/lib/imageDefaults';
 import logoBeige from '@/assets/logos/logo-full-beige.png';
 import logoNavy from '@/assets/logos/logo-full-navy.png';
 import CallButton from './CallButton.astro';
@@ -20,8 +21,8 @@ const { overHero = false } = Astro.props;
 <header id="site-nav" class="fixed inset-x-0 top-0 z-40 transition-colors duration-300" data-scrolled="false" data-over-hero={String(overHero)}>
   <div class="container-wide flex items-center justify-between py-4">
     <a href="/" class="flex items-center gap-3" aria-label="Pappytackle home">
-      <Image src={logoBeige} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto data-scrolled:hidden" loading="eager" />
-      <Image src={logoNavy} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto hidden" id="logo-scrolled" loading="eager" />
+      <Image src={logoBeige} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto data-scrolled:hidden" loading="eager" quality={IMAGE_QUALITY} />
+      <Image src={logoNavy} alt="Pappytackle 4×4 & Auto" width={160} height={48} class="h-10 w-auto hidden" id="logo-scrolled" loading="eager" quality={IMAGE_QUALITY} />
     </a>
     <nav class="hidden md:flex items-center gap-6" aria-label="Primary">
       {links.map(l => (

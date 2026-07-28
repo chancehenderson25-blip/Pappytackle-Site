@@ -15,9 +15,8 @@ import exhaust02 from '@/assets/photos/exhaust/exhaust-02.jpg';
 import van01 from '@/assets/photos/vans/van-01.jpg';
 import van02 from '@/assets/photos/vans/van-02.jpg';
 
-type Src = typeof lexus01;
-const mk = (id: string, category: Photo['category'], src: Src, alt: string): Photo => ({
-  id, category, src: src.src, alt, width: src.width, height: src.height,
+const mk = (id: string, category: Photo['category'], image: ImageMetadata, alt: string): Photo => ({
+  id, category, image, alt,
 });
 
 export const photos: Photo[] = [

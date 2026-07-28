@@ -2,15 +2,25 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionLight from '@/components/SectionLight.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
+import { getImage } from 'astro:assets';
 import { builds } from '@/data/builds';
 import { photoById } from '@/data/photos';
+import { IMAGE_QUALITY, GALLERY_THUMB_WIDTH, GALLERY_FULL_WIDTH } from '@/lib/imageDefaults';
 import BuildGallery from '@/components/builds/BuildGallery';
 import TodoBlock from '@/components/TodoBlock.astro';
 
-const items = builds.flatMap(b => {
-  if (b.photoIds.length === 0) return [];
-  return b.photoIds.map((pid, idx) => {
+// Thumbnails and lightbox images are generated here rather than handed to the
+// React island as raw originals — the gallery previously rendered the
+// full-resolution files, which came to ~28MB for this one page.
+const items = await Promise.all(
+  builds.flatMap(b =>
+    b.photoIds.map((pid, idx) => ({ b, pid, idx }))
+  ).map(async ({ b, pid, idx }) => {
     const p = photoById(pid)!;
+    const [thumb, full] = await Promise.all([
+      getImage({ src: p.image, width: GALLERY_THUMB_WIDTH, quality: IMAGE_QUALITY }),
+      getImage({ src: p.image, width: GALLERY_FULL_WIDTH, quality: IMAGE_QUALITY }),
+    ]);
     return {
       id: `${b.id}-${idx}`,
       // Only the first photo of each build carries the build's own id, so
@@ -20,11 +30,12 @@ const items = builds.flatMap(b => {
       vehicle: b.vehicle,
       summary: b.summary,
       category: b.category,
-      photoSrc: p.src,
+      photoSrc: thumb.src,
+      photoFullSrc: full.src,
       photoAlt: p.alt,
     };
-  });
-});
+  }),
+);
 ---
 <BaseLayout title="4×4 Builds Gallery" description="Real lift kits, suspension work, and full 4×4 builds out of Pappytackle in Lynden, WA.">
   <SectionLight tone="paper">
