@@ -16,10 +16,12 @@ original design intent, still accurate for overall architecture.
 
 ## Current state
 
-- **Live** at `pappytackle-site.vercel.app`. Custom domain `pappytackle.com` is
-  added in Vercel but DNS at GoDaddy still points to the old WP Engine
-  WordPress site — DNS records need to be added by the owner's mentor, who
-  controls GoDaddy access.
+- **Fully live** at `pappytackle.com` (and `www.pappytackle.com`, both
+  resolve through Vercel — `www` is the canonical/redirect target). DNS
+  cutover from the old WP Engine WordPress host is complete.
+- `service@pappytackle.com` is verified in Resend; booking emails send from
+  `bookings@pappytackle.com` to the real shop inbox.
+- Vercel Web Analytics is enabled and confirmed recording pageviews.
 - Repo: `github.com/chancehenderson25-blip/Pappytackle-Site`, `main` branch,
   auto-deploys on push.
 - Node/npm are installed locally now (weren't at project start).
@@ -31,19 +33,20 @@ original design intent, still accurate for overall architecture.
   `src/data/reviews.ts`), then layer in an automated Places API sync later
   that appends new reviews without duplicating the manual seed (dedup by
   Google review timestamp + author). Not started yet.
-- **Resend domain verification**: `pappytackle.com` isn't verified in Resend
-  yet (blocked on the same GoDaddy access issue above). Until it is, Resend
-  only allows sending to the account owner's own address.
 - **Real shop photography**: About page (portrait + shop interior) and a few
   4×4 Builds gallery slots are still placeholder/`TodoBlock` entries.
 - **6 sample reviews** in `src/data/reviews.ts` are marked `_isSample: true`
   — not real customer reviews yet.
+- **Old WP Engine/WordPress hosting**: no longer receiving any traffic (DNS
+  fully points at Vercel now) but not yet formally decommissioned/cancelled
+  — owner's call on timing.
+- **No SPF record at the root domain** (`pappytackle.com` apex) — only at
+  the `send` subdomain Resend uses. Doesn't affect the site, but weakens
+  deliverability for mail sent directly from `service@pappytackle.com`.
+  Pre-existing, not something this project's changes caused.
 
 ## Non-obvious current state (don't be surprised by these)
 
-- `BOOKINGS_TO_EMAIL` in Vercel is currently set to the owner's personal
-  Gmail, **not** the real shop inbox (`service@pappytackle.com`) — temporary
-  stand-in until the Resend domain verifies. Switch it once that's done.
 - AI endpoints are rate-limited via Upstash Redis: 20 requests/hour per IP,
   shared across all four `/api/ai/*` endpoints combined (not 20 each). See
   `src/lib/rateLimit.ts`. Fails open (unthrottled) if Upstash env vars are
@@ -71,6 +74,15 @@ original design intent, still accurate for overall architecture.
   compiled output in `.vercel/output/_functions/` (or equivalent), not just
   `astro dev` — dev mode is not a reliable stand-in for adapter build
   behavior.
+- Vercel's env var UI has silently saved an empty value at least once
+  (`BOOKINGS_TO_EMAIL` ended up blank despite the owner entering a value,
+  causing a confusing downstream Resend error that looked unrelated). If a
+  var-dependent feature misbehaves after a save, double-check the actual
+  saved value in the dashboard before assuming the code is wrong.
+- The site was accidentally left in maintenance mode (all real traffic
+  seeing the 503 page, analytics recording nothing) for a stretch after a
+  bug-fix redeploy, because it wasn't obvious the env var was still `true`.
+  If analytics or traffic looks dead, check `MAINTENANCE_MODE` first.
 
 ## Taking the site down for maintenance
 

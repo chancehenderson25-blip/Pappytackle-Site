@@ -10,6 +10,32 @@ that file is the current picture.
 
 ---
 
+## 2026-07-28 — Analytics, Resend verification, real bookings inbox live
+
+**Vercel Web Analytics added.** Installed `@vercel/analytics`, added
+`<Analytics />` to `BaseLayout.astro`. Owner enabled it in the Vercel
+dashboard. First test was a false alarm — the site was still in
+maintenance mode from the prior session's bug-fix cycle, and the standalone
+maintenance page doesn't use `BaseLayout`, so nothing was being recorded.
+Turned maintenance mode off; analytics confirmed working immediately after.
+
+**Resend domain verification completed.** Owner verified `pappytackle.com`
+in Resend after the DNS records (added last session) fully propagated.
+
+**Booking emails now reach the real shop inbox.** Updated
+`BOOKINGS_TO_EMAIL` to `service@pappytackle.com` and added
+`BOOKINGS_FROM_EMAIL=bookings@pappytackle.com`. Hit a confusing detour first:
+got a "domain not verified" error from Resend even though the dashboard
+showed verified — turned out `BOOKINGS_TO_EMAIL` had silently saved as
+empty in Vercel's UI (owner had entered a value, it didn't stick). Once
+re-entered and redeployed, confirmed working with a real test booking.
+
+**Open at end of session**: same deferred items as before (Google Reviews
+API sync, real photos, real reviews) plus two new small ones — deciding
+whether/when to cancel the now-unused WP Engine hosting, and no SPF record
+at the root domain (pre-existing gap, only affects deliverability of mail
+sent directly from `service@pappytackle.com`, not the site itself).
+
 ## 2026-07-23 (cont'd) — DNS cutover, maintenance mode, and a real production bug
 
 **DNS cutover to Vercel completed.** Owner's mentor added the A record
