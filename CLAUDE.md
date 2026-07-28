@@ -107,6 +107,18 @@ rewritten to `src/pages/maintenance.astro` (503 + Retry-After, noindex) via
 `src/middleware.ts`. Booking stays reachable on purpose so leads aren't lost.
 Set back to `false` (or remove the var) and redeploy to restore the site.
 
+`/_image` is also exempt, and must stay that way: it's Astro's on-demand
+image endpoint, and the maintenance page's own logo goes through it. Without
+the exemption the logo 503s and the outage page renders with a broken image.
+Any future asset route the maintenance page depends on needs the same
+treatment.
+
+Note that since the toggle reads `process.env`, putting `MAINTENANCE_MODE` in
+a local `.env` file does **not** enable it under `astro dev` (Vite loads
+`.env` into `import.meta.env`, not `process.env`). To exercise this path
+locally, either set a real shell env var or drive the compiled middleware in
+`.vercel/output/_functions/` directly.
+
 ## Don't invent facts
 
 This is a real business. Don't fabricate or guess at shop hours, pricing,

@@ -5,7 +5,11 @@ import { defineMiddleware } from 'astro:middleware';
 // already-built deployments). Booking stays reachable on purpose so leads
 // aren't lost while the rest of the site is gated.
 const EXEMPT_PATHS = new Set(['/maintenance', '/book', '/book/thanks']);
-const EXEMPT_PREFIXES = ['/api/bookings', '/_astro/', '/favicon', '/og-default', '/robots.txt', '/sitemap', '/videos/'];
+// `/_image` is Astro's on-demand image endpoint. It must be exempt or the
+// maintenance page's own logo 503s — the <Image> component requests
+// /_image?href=...&w=..&h=..&f=webp, which the rewrite would otherwise
+// swallow, leaving a broken image on the page shown during an outage.
+const EXEMPT_PREFIXES = ['/api/bookings', '/_astro/', '/_image', '/favicon', '/og-default', '/robots.txt', '/sitemap', '/videos/'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   // process.env only, deliberately not import.meta.env — Vite statically
