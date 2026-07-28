@@ -4,6 +4,7 @@ import SiteNav from '@/components/SiteNav.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import ChatMount from '@/components/chat/ChatMount.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -38,5 +39,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:43
   </main>
   <SiteFooter />
   <ChatMount />
+  <Analytics />
 </body>
 </html>
