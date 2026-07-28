@@ -4,6 +4,7 @@ import hero from '@/assets/photos/lexus-gx/long-travel-01.jpg';
 import Button from '@/components/Button.astro';
 import CallButton from '@/components/CallButton.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
+import { shop } from '@/data/shop';
 
 const hasVideo = true;
 const videoSrc = '/videos/lexus-gx-hero.mp4';
@@ -20,7 +21,7 @@ const videoWebm = '/videos/lexus-gx-hero.webm';
   <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-char)] via-[var(--color-char)]/60 to-transparent"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-[var(--color-char)]/80 via-transparent to-transparent"></div>
   <div class="relative container-wide pb-20 md:pb-28">
-    <Eyebrow class="mb-4 text-[var(--color-gold)]">Bellingham, WA · Est. 2024</Eyebrow>
+    <Eyebrow class="mb-4 text-[var(--color-gold)]">{shop.address.city}, {shop.address.state} · Est. 2024</Eyebrow>
     <h1 class="text-6xl md:text-7xl lg:text-8xl text-[var(--color-paper)] max-w-4xl">
       Built to <span class="text-[var(--color-ember)]">go anywhere.</span>
     </h1>

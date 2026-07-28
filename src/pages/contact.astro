@@ -7,10 +7,10 @@ import CallButton from '@/components/CallButton.astro';
 import { shop } from '@/data/shop';
 import { formatDayHours } from '@/lib/formatHours';
 
-const { lat, lng } = shop.geo;
-const bbox = `${lng - 0.01},${lat - 0.005},${lng + 0.01},${lat + 0.005}`;
-const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+// Map is geocoded from the address itself rather than hardcoded lat/lng, so
+// it stays correct automatically if the shop ever moves again.
 const addr = encodeURIComponent(`${shop.address.line1}, ${shop.address.city}, ${shop.address.state} ${shop.address.zip}`);
+const mapSrc = `https://maps.google.com/maps?q=${addr}&z=15&output=embed`;
 ---
 <BaseLayout title="Contact">
   <SectionLight tone="paper">

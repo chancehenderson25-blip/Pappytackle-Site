@@ -1,6 +1,6 @@
 # Pappytackle 4×4 & Auto
 
-Marketing site for Pappytackle 4×4 & Auto (Bellingham, WA) with embedded Claude-powered features. Built with Astro 5, React islands, Tailwind v4, and the Anthropic TS SDK.
+Marketing site for Pappytackle 4×4 & Auto (Lynden, WA) with embedded Claude-powered features. Built with Astro 5, React islands, Tailwind v4, and the Anthropic TS SDK.
 
 ## Local setup
 
@@ -98,7 +98,7 @@ This pass is **local-dev only**. Before going live:
 3. **Appointments sink:** replace `data/appointments.local.json` with email (Resend / Postmark) and/or CRM (whatever Chance uses).
 4. **Reviews:** replace sample placeholders with real verbatim text from the shop's Google Business page; flip `_isSample` off.
 5. **TODO imagery:** replace TODO blocks on About (Chance + shop interior) and 4×4 Builds (Sienna, Gladiator, Transit, Sierra) with real photography.
-6. **Shop geo coordinates:** `src/data/shop.ts` `geo: { lat, lng }` is approximate Bellingham. Replace with the real shop location for the OpenStreetMap embed + JSON-LD.
+6. **Shop map:** the contact-page map geocodes from `shop.address` directly — there are no hardcoded coordinates to keep in sync. If you want a precise pin plus `geo` in the JSON-LD, add real lat/lng from Google Maps (right-click the shop → copy coordinates); don't estimate them.
 7. **Site URL:** set `PUBLIC_SITE_URL` env var in production so `astro.config.mjs` `site:` field points at the real domain (drives canonical tags, sitemap URLs, OG `og:url`).
 8. **Lighthouse:** run a full Lighthouse pass and fix any AA contrast / perf / SEO regressions.
 9. **Streaming retry:** the retry wrapper on `anthropic.messages.stream()` is a no-op (the stream is initiated synchronously and errors surface during iteration). If reliability under transient network failures matters, add per-iteration error handling that surfaces a resumable error to the SSE client.

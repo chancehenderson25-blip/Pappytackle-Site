@@ -14,7 +14,7 @@ import CertStrip from '@/components/CertStrip.astro';
       <h1 class="mt-2 text-5xl md:text-6xl">Meet Chance.</h1>
       <div class="mt-8"><TodoBlock label="Portrait of Chance — replace with real photo" ratio="3/2" /></div>
       <div class="mt-10 prose-lg max-w-none leading-relaxed text-[var(--color-ink)]/90">
-        <p class="text-2xl"><span class="float-left mr-3 mt-1 text-7xl font-display font-bold leading-none text-[var(--color-ember)]">P</span>appytackle isn't a corporate auto chain. It's one guy who knows what he's doing, one bay at a time, in a small shop on Sunset Pond Ln in Bellingham.</p>
+        <p class="text-2xl"><span class="float-left mr-3 mt-1 text-7xl font-display font-bold leading-none text-[var(--color-ember)]">P</span>appytackle isn't a corporate auto chain. It's one guy who knows what he's doing, one bay at a time, in a small shop on {shop.address.line1.replace(/^\d+\s/, '')} in {shop.address.city}.</p>
         <p class="mt-6">Chance has been working on cars and trucks for over a decade. ASE Certified. The kind of mechanic who tells you when you don't need a repair, and explains exactly what he found when you do.</p>
         <p class="mt-6">Most days, that means oil changes, brakes, A/C work, diagnostics, exhaust — the usual stuff a daily driver needs. But on the days when someone rolls in with a Tacoma that needs a 3-inch lift, or a Lexus GX that wants long-travel suspension, that's where Pappytackle really opens up. Chance builds rigs the way he'd build his own — proper geometry, real alignment, no compromises that bite you on the trail.</p>
         <p class="mt-6">If you're local and you want a shop that picks up the phone and tells you the truth, you found one.</p>

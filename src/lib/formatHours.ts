@@ -1,4 +1,10 @@
-type Hour = { readonly day: string; readonly open: string | null; readonly close: string | null };
+type Hour = {
+  readonly day: string;
+  readonly open: string | null;
+  readonly close: string | null;
+  /** Shown instead of "Closed" for days that aren't regular hours, e.g. "By request". */
+  readonly note?: string;
+};
 
 /** "08:00" -> "8a", "17:00" -> "5p", "08:30" -> "8:30a" */
 export function formatTime(t: string): string {
@@ -10,9 +16,10 @@ export function formatTime(t: string): string {
   return m ? `${h}:${String(m).padStart(2, '0')}${suffix}` : `${h}${suffix}`;
 }
 
-/** "8a–5p" for an open day, "Closed" otherwise. */
+/** "9:30a–6:30p" for an open day; the day's note (e.g. "By request") or "Closed" otherwise. */
 export function formatDayHours(h: Hour): string {
-  return h.open && h.close ? `${formatTime(h.open)}–${formatTime(h.close)}` : 'Closed';
+  if (h.open && h.close) return `${formatTime(h.open)}–${formatTime(h.close)}`;
+  return h.note ?? 'Closed';
 }
 
 /**
@@ -23,7 +30,9 @@ export function formatDayHours(h: Hour): string {
 export function formatHourLines(hours: readonly Hour[]): string[] {
   const runs: { days: string[]; label: string }[] = [];
   for (const h of hours) {
-    const label = h.open && h.close ? `${formatTime(h.open)}–${formatTime(h.close)}` : 'closed';
+    const label = h.open && h.close
+      ? `${formatTime(h.open)}–${formatTime(h.close)}`
+      : (h.note?.toLowerCase() ?? 'closed');
     const last = runs[runs.length - 1];
     if (last && last.label === label) last.days.push(h.day);
     else runs.push({ days: [h.day], label });

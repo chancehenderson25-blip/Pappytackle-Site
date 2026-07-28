@@ -7,7 +7,7 @@ deferred item, or resolves one.
 
 ## What this is
 
-Marketing site for Pappytackle 4×4 & Auto (Bellingham, WA), with Claude-powered
+Marketing site for Pappytackle 4×4 & Auto (Lynden, WA), with Claude-powered
 features (chat widget, diagnose-a-problem, booking-service suggester, smart
 search). Astro 5 + React islands, deployed on Vercel. Built originally per
 `docs/superpowers/plans/2026-05-23-pappytackle-site.md` and
@@ -78,6 +78,20 @@ original design intent, still accurate for overall architecture.
   causing a confusing downstream Resend error that looked unrelated). If a
   var-dependent feature misbehaves after a save, double-check the actual
   saved value in the dashboard before assuming the code is wrong.
+- The shop **moved to Lynden** (230 Birch Bay Lynden Rd, Lynden, WA 98264) on
+  2026-07-28; it was previously in Bellingham. The old Bellingham address
+  still appears in `docs/superpowers/plans/` and `specs/` — those are
+  historical build documents and were deliberately left alone. `shop.ts` is
+  the only live source.
+- The contact-page map **geocodes from `shop.address`** rather than hardcoded
+  lat/lng, and `shop.geo` no longer exists. This was deliberate: coordinates
+  are a fact that can't be guessed, and a stale/wrong pin sends real
+  customers to the wrong place. If precise coordinates are ever wanted (for
+  a `geo` field in the JSON-LD), get them from Google Maps — don't estimate.
+- Saturday/Sunday are `open: null` with `note: 'By request'` in `shop.ts`.
+  `src/lib/formatHours.ts` renders that as "by request" instead of "closed",
+  and JSON-LD `openingHoursSpecification` correctly omits those days since
+  they aren't regular hours.
 - The site was accidentally left in maintenance mode (all real traffic
   seeing the 503 page, analytics recording nothing) for a stretch after a
   bug-fix redeploy, because it wasn't obvious the env var was still `true`.

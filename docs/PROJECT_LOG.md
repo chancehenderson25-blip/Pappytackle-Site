@@ -10,6 +10,48 @@ that file is the current picture.
 
 ---
 
+## 2026-07-28 (cont'd) — Content consistency pass, then shop address + hours change
+
+**Proofreading pass** across every page and data file. Found and fixed: dead
+deep links from the homepage "Recent Builds" cards to `/builds#<id>` (the
+gallery used React's `key` prop, which isn't an HTML `id`, so no such element
+existed); a shower emoji on the Exhaust service card; Oil Changes missing from
+both the homepage grid and the footer.
+
+Bigger theme was **duplicate sources of truth**: service names differed between
+the services page, footer, booking dropdown, and booking email; the footer
+hardcoded its own copy of the address/hours/certifications instead of reading
+`shop.ts` (which also made "O'Reilly" render with two different apostrophes on
+the same page); hours showed as "Mon 08:00–17:00" on contact but "Mon–Fri
+8a–5p" in the footer. All now derive from `shop.ts`/`services.ts`, with a new
+`src/lib/formatHours.ts` as the single hours formatter. Copyright year is
+derived too.
+
+**Shop moved to Lynden.** Address changed from 710 Sunset Pond Ln, Bellingham
+to 230 Birch Bay Lynden Rd, Lynden, WA 98264. Hours changed from Mon–Fri
+8a–5p to Mon–Fri 9:30a–6:30p, with weekends "by request" (new optional `note`
+field on hours entries, since the old shape could only express open/closed).
+Because the footer and page copy now derive from `shop.ts`, most of this was a
+one-file change; the remaining edits were meta descriptions and the About-page
+sentence that named the old street.
+
+**Judgment call on the map:** the contact page previously used hardcoded
+`geo` coordinates for an OpenStreetMap embed. Those were Bellingham's and
+would have been wrong. I initially filled in estimated Lynden coordinates,
+caught that this violated the project's own "don't invent facts" rule (a wrong
+map pin sends real customers to the wrong place), and instead removed `geo`
+entirely and switched the map to geocode from `shop.address`. Also dropped
+`geo` from the JSON-LD rather than ship a guessed value — `address` is the
+primary signal there anyway. Real coordinates can be added later from Google
+Maps if a precise pin is wanted.
+
+**Not verified:** the Google Maps embed renders correctly. The iframe is
+lazy-loaded and the local browser pane couldn't composite a screenshot, so
+the map should be eyeballed on the deployed contact page.
+
+**Still open:** the sample reviews question (fabricated testimonials plus a
+5.0/36 `aggregateRating` in the JSON-LD) and real photography.
+
 ## 2026-07-28 — Analytics, Resend verification, real bookings inbox live
 
 **Vercel Web Analytics added.** Installed `@vercel/analytics`, added

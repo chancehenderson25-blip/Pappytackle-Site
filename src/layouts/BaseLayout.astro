@@ -5,6 +5,7 @@ import SiteFooter from '@/components/SiteFooter.astro';
 import ChatMount from '@/components/chat/ChatMount.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
 import Analytics from '@vercel/analytics/astro';
+import { shop } from '@/data/shop';
 
 interface Props {
   title: string;
@@ -12,8 +13,9 @@ interface Props {
   ogImage?: string;
   navOver?: boolean;
 }
-const { title, description = 'Honest auto repair and custom 4×4 builds in Bellingham, WA. ASE Certified. 5.0 across 36+ reviews.', ogImage = '/og-default.jpg', navOver = false } = Astro.props;
-const fullTitle = `${title} · Pappytackle 4×4 & Auto · Bellingham, WA`;
+const cityState = `${shop.address.city}, ${shop.address.state}`;
+const { title, description = `Honest auto repair and custom 4×4 builds in ${cityState}. ASE Certified. ${shop.reviewStats.average} across ${shop.reviewStats.count}+ reviews.`, ogImage = '/og-default.jpg', navOver = false } = Astro.props;
+const fullTitle = `${title} · ${shop.name} · ${cityState}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321').href;
 ---
 <!doctype html>

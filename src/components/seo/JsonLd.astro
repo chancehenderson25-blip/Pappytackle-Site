@@ -25,7 +25,6 @@ const businessJsonLd = {
     postalCode: shop.address.zip,
     addressCountry: 'US',
   },
-  geo: { '@type': 'GeoCoordinates', latitude: shop.geo.lat, longitude: shop.geo.lng },
   openingHoursSpecification: shop.hours.filter(h => h.open).map(h => ({
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: dayNames[h.day],
