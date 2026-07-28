@@ -61,6 +61,16 @@ original design intent, still accurate for overall architecture.
   and `@astrojs/vercel` v11+ requires Astro 7). Don't blindly `npm install
   @astrojs/vercel@latest`.
 
+## Taking the site down for maintenance
+
+Set `MAINTENANCE_MODE=true` in Vercel (all environments) and trigger a
+redeploy — env var changes don't apply to an already-built deployment, so
+either push a commit or manually redeploy from the dashboard. Every route
+except `/book`, `/book/thanks`, `/api/bookings`, and static assets gets
+rewritten to `src/pages/maintenance.astro` (503 + Retry-After, noindex) via
+`src/middleware.ts`. Booking stays reachable on purpose so leads aren't lost.
+Set back to `false` (or remove the var) and redeploy to restore the site.
+
 ## Don't invent facts
 
 This is a real business. Don't fabricate or guess at shop hours, pricing,

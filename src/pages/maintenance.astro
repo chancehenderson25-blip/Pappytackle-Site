@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import logoNavy from '@/assets/logos/logo-full-navy.png';
+import Button from '@/components/Button.astro';
+import CallButton from '@/components/CallButton.astro';
+import { shop } from '@/data/shop';
+
+// Also reachable directly (not just via the maintenance-mode rewrite), so it
+// always reports 503 + Retry-After rather than only when middleware sends
+// visitors here.
+Astro.response.status = 503;
+Astro.response.headers.set('Retry-After', '3600');
+
+const openDays = shop.hours.filter(h => h.open);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Be Right Back · Pappytackle 4×4 & Auto</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+</head>
+<body class="min-h-screen bg-[var(--color-paper)] text-[var(--color-ink)] flex items-center justify-center px-6 py-16">
+  <div class="max-w-lg w-full text-center">
+    <Image src={logoNavy} alt="Pappytackle 4×4 & Auto" width={200} height={60} class="h-14 w-auto mx-auto mb-10" loading="eager" />
+
+    <h1 class="text-4xl md:text-5xl font-display font-bold uppercase">Be right back</h1>
+    <p class="mt-4 text-lg leading-relaxed text-[var(--color-ink)]/80">
+      We're doing a little maintenance on the website. The shop is open as
+      usual — call us or book an appointment below and we'll take it from
+      there.
+    </p>
+
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <Button href="/book" size="lg">Book an Appointment</Button>
+      <CallButton variant="ghost" class="!text-[var(--color-ink)] !border-[var(--color-ink)]/30 justify-center" />
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-[var(--color-ink)]/10 text-sm text-[var(--color-ink)]/70">
+      <address class="not-italic leading-relaxed">
+        {shop.name}<br/>
+        {shop.address.line1}<br/>
+        {shop.address.city}, {shop.address.state} {shop.address.zip}
+      </address>
+      <p class="mt-3">
+        {openDays.map(h => `${h.day} ${h.open}–${h.close}`).join(' · ')}
+      </p>
+    </div>
+  </div>
+</body>
+</html>
