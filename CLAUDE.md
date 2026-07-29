@@ -16,9 +16,17 @@ original design intent, still accurate for overall architecture.
 
 ## Current state
 
-- **Fully live** at `pappytackle.com` (and `www.pappytackle.com`, both
-  resolve through Vercel — `www` is the canonical/redirect target). DNS
-  cutover from the old WP Engine WordPress host is complete.
+- **Deliberately in maintenance mode as of 2026-07-28.** `MAINTENANCE_MODE`
+  is `true` in Vercel because the owner wants to hold the launch until the
+  site is finished — this is intentional, **do not turn it off** without
+  asking. (It contradicts the troubleshooting note further down about
+  checking `MAINTENANCE_MODE` when traffic looks dead; that note is for
+  diagnosing an *accidental* outage.) Pushes still deploy normally, they're
+  just gated behind the 503 page. `/book` stays reachable throughout.
+- Domain and infrastructure are all wired up and working: `pappytackle.com`
+  and `www.pappytackle.com` both resolve through Vercel (`www` is the
+  canonical/redirect target), DNS cutover from the old WP Engine WordPress
+  host is complete.
 - `service@pappytackle.com` is verified in Resend; booking emails send from
   `bookings@pappytackle.com` to the real shop inbox.
 - Vercel Web Analytics is enabled and confirmed recording pageviews.
@@ -30,15 +38,14 @@ original design intent, still accurate for overall architecture.
 
 ## Deferred — intentionally not done, don't "fix" without checking first
 
-- **Google Reviews API integration**: on hold until the owner's Google Ads
-  account is updated. Decision made: seed real reviews manually once (into
-  `src/data/reviews.ts`), then layer in an automated Places API sync later
-  that appends new reviews without duplicating the manual seed (dedup by
-  Google review timestamp + author). Not started yet.
+- **Google Reviews API sync**: still not built, and no longer urgent — the
+  manual seed is done (54 real reviews in `src/data/reviews.ts`, transcribed
+  2026-07-28). If it's ever built, it must *append* new reviews and dedup
+  against the existing seed rather than replacing it, since the API only
+  returns 5 reviews and would otherwise wipe out the other 49.
 - **Real shop photography**: About page (portrait + shop interior) and a few
-  4×4 Builds gallery slots are still placeholder/`TodoBlock` entries.
-- **6 sample reviews** in `src/data/reviews.ts` are marked `_isSample: true`
-  — not real customer reviews yet.
+  4×4 Builds gallery slots are still placeholder/`TodoBlock` entries. This is
+  the main thing left before launch.
 - **No SPF record at the root domain** (`pappytackle.com` apex) — only at
   the `send` subdomain Resend uses. Doesn't affect the site, but weakens
   deliverability for mail sent directly from `service@pappytackle.com`.

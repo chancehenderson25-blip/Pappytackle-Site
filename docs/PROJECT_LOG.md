@@ -10,6 +10,41 @@ that file is the current picture.
 
 ---
 
+## 2026-07-28 (cont'd) — Real Google reviews replace the fabricated ones
+
+Owner exported their Google Business Profile reviews as 13 screenshots.
+Transcribed **54 real reviews** verbatim into `src/data/reviews.ts`, removing
+the six fabricated placeholders that had invented names, dates, and claims —
+the last fabricated content on the site, and the thing most at odds with a
+real business's reputation.
+
+Reached this via screenshots rather than automation, and that was the right
+call: Google's public Places API caps at 5 reviews regardless of setup, the
+Business Profile API is gated behind an approval process, and scraping Maps
+violates Google's ToS. Screenshots got all 54 in about ten minutes.
+
+**Dates are approximate and the UI is honest about it.** Google's review list
+shows only relative timestamps ("3 months ago"), so each date is derived
+against 2026-07-28 and is accurate to roughly the month. The reviews page now
+renders "Apr 2026" instead of a day-level date, so the display doesn't imply
+precision the source never had.
+
+**One transcription judgment worth recording.** I initially held back nine
+reviews as "truncated behind Google's More link." The owner checked — that
+link expands the services box, not the review text — so those were added in a
+second pass. Only Peter Buetow's genuinely ends mid-sentence ("Everything was
+completed …"); his is kept as an excerpt ending at the last complete sentence
+rather than inventing the tail. Three reviews (Joey Perez, Krys R., Zarinah
+Tyndall) have a star rating but no text and are excluded — nothing to quote.
+
+`reviewStats` 36 → **57** (owner confirmed against the live profile). All 57
+are 5-star, so the 5.0 average holds. 57 is the true Google total; 54 are
+displayed, the difference being the three text-less ones.
+
+**Site intentionally left in maintenance mode** — owner is holding the launch
+until the remaining photography is done. Noted at the top of `CLAUDE.md` so a
+future session doesn't read the 503 as an accident and switch it off.
+
 ## 2026-07-28 (cont'd) — Every image on the site was broken, then 28MB of them
 
 Owner reported no photos or logos loading. Two distinct problems, the second
