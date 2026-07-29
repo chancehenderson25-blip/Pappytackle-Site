@@ -2,6 +2,12 @@ import { useState, useMemo } from 'react';
 
 interface Review { id: string; rating: 1|2|3|4|5; name: string; date: string; body: string; }
 
+// Dates are derived from Google's relative timestamps ("3 months ago"), so
+// they're only accurate to about the month — render month + year rather than
+// a day-level date that would imply precision we don't have.
+const MONTH_YEAR = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const fmtDate = (iso: string) => MONTH_YEAR.format(new Date(`${iso}T00:00:00Z`));
+
 type SortOrder = 'newest' | 'oldest' | 'rating_high' | 'rating_low';
 const SORTS: { v: SortOrder; l: string }[] = [
   { v: 'newest', l: 'Newest first' },
@@ -56,7 +62,7 @@ export default function ReviewWall({ reviews }: { reviews: Review[] }) {
               ))}
             </div>
             <blockquote className="mt-3 leading-relaxed">"{r.body}"</blockquote>
-            <figcaption className="mt-4 text-sm text-[var(--color-ink)]/65">— {r.name} · {r.date}</figcaption>
+            <figcaption className="mt-4 text-sm text-[var(--color-ink)]/65">— {r.name} · {fmtDate(r.date)}</figcaption>
           </figure>
         ))}
       </div>

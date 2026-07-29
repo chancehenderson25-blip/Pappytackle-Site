@@ -18,5 +18,8 @@ export const shop = {
     { day: 'Sun', open: null, close: null, note: 'By request' },
   ],
   certifications: ['ASE Certified', 'BBB', 'NAPA', "O'Reilly", 'Synchrony Car Care'],
-  reviewStats: { average: 5.0, count: 36 },
+  // Counted from the 2026-07-28 Google Business Profile screenshots (57 visible,
+  // all 5-star). Worth re-checking against the live profile before treating the
+  // count as exact — it feeds the JSON-LD aggregateRating Google reads.
+  reviewStats: { average: 5.0, count: 57 },
 } as const;
