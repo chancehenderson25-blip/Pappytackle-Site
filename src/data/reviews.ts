@@ -11,8 +11,13 @@ import type { Review } from './types';
 // day-level date. If exact dates are ever needed, they'd have to come from the
 // Google Business Profile API.
 //
-// Not included here: nine reviews truncated behind Google's "More" link, and
-// three with a star rating but no written text. See docs/PROJECT_LOG.md.
+// Google's "More" link expands the services box, not the review text, so the
+// text visible in the screenshots is the full review in every case but one
+// (Peter Buetow — noted inline below).
+//
+// Not included: three reviews that carry a star rating but no written text
+// (Joey Perez, Krys R., Zarinah Tyndall). They count toward the Google total
+// in shop.ts but there's nothing to quote.
 
 export const reviews: Review[] = [
   { id: 'gherman-kutrovski', rating: 5, name: 'Gherman Kutrovski', date: '2026-07-14',
@@ -27,8 +32,16 @@ export const reviews: Review[] = [
     body: 'They really helped us out in a pinch and squeezed us into their already busy schedule! Got us squared away for a great price, excellent service and easy to work with! Thank you!' },
   { id: 'john-novotny', rating: 5, name: 'John Novotny', date: '2026-04-28',
     body: 'Got two quotes..one from a Chevy dealership and one from pappytackle...turned out pappytackle was 100% correct and the dealership was wrong. Glad I went with pappytackle!!! FYI this actually happened' },
+  { id: 'mike-parry', rating: 5, name: 'Mike Parry', date: '2026-04-28',
+    body: 'We had a really good experience with Pappytackle. Chance was communicative, honest, and truely cared about getting it right the first time. I highly recommend Pappytackle for all of your automotive needs!' },
   { id: 'matt-brewer', rating: 5, name: 'Matt Brewer', date: '2026-02-28',
     body: 'Trustworthy and thorough! I took my lifted tundra here for the first time after getting some questionable work done at another 4 x 4 shop in Oak Harbor and they took the time to go through everything and get me all sorted out. Chance stayed til 9:30 at night to make sure I got my rig back same day. Highly recommend!!' },
+  { id: 'korey', rating: 5, name: 'Korey', date: '2026-02-28',
+    body: "I like to dabble in my own vehicle repairs, but I'm not a mechanic, so every now and then I need some help which led me to Pappytackle 4x4. Chance awesome! It's not just his fair prices. His patience, knowledge, and quality workmanship are exemplary. I am absolutely stoked I found these guys." },
+  { id: 'william-leyrer', rating: 5, name: 'William Leyrer', date: '2026-01-28',
+    body: 'Great little shop run by guys who actually get out and do the hobby. Happy to have a local place like this to bring my rig.' },
+  { id: 'austin-bob', rating: 5, name: 'Austin Bob', date: '2026-01-28',
+    body: 'So this was my first time coming to this shop. It was a really great experience. I will be coming back for more work in the future.' },
   { id: 'drake-torstenson', rating: 5, name: 'Drake Torstenson', date: '2025-12-28',
     body: 'Chance did a fantastic job doing custom fab work on my truck. The work quality is top notch with great attention to detail. He communicated timing clearly and called to check in and make sure all the work scope was covered. I will be going back for any future work on my truck!' },
   { id: 'brad-smout', rating: 5, name: 'Brad Smout', date: '2025-12-28',
@@ -37,6 +50,12 @@ export const reviews: Review[] = [
     body: 'Very accommodating, easy, and communicative.' },
   { id: 'anthony-montalbano', rating: 5, name: 'Anthony Montalbano', date: '2025-12-28',
     body: 'Excellent attention to detail and tremendous vehicle and product knowledge with a focus on safety and performance. Very fortunate to have this level of expertise in Bellingham.' },
+  { id: 'doug-cash', rating: 5, name: 'Doug Cash', date: '2025-12-28',
+    body: 'Very cool no pressure shop. They make you feel like they have known you for years. Honest, hardworking and very experienced. 10/10!!' },
+  { id: 'michael-cozad', rating: 5, name: 'Michael Cozad', date: '2025-12-28',
+    body: 'Was very impressed with the knowledge and being straight forward with the process. Diagnosed the problem quick and had the solution. Plus I learned a few things. Definitely trustworthy shop!' },
+  { id: 'sandra-lancaster', rating: 5, name: 'Sandra Lancaster', date: '2025-11-28',
+    body: 'Quick fast and quality service. I install was seamless.' },
   { id: 'alec-poff', rating: 5, name: 'Alec Poff', date: '2025-11-28',
     body: "Everybody at PappyTackle are awesome! I take my personal vehicle here for any and all services, as well as all of my company's vehicles. My expectations for price, efficiency, and quality of the work are always exceeded.\n\nIf you're looking for a new shop for all your auto needs, look no further. If you aren't looking for a new shop, you should - I guarantee they aren't as good as these guys." },
   { id: 'scott-anderson', rating: 5, name: 'Scott Anderson', date: '2025-10-28',
@@ -63,6 +82,11 @@ export const reviews: Review[] = [
     body: "Always a pleasure to deal with pappytackle. You can count that they'll do an excellent job and give you the best price possible." },
   { id: 'lilliana-pando', rating: 5, name: 'Lilliana Pando', date: '2025-07-28',
     body: 'Excellent service & price. Got my Land Rover in and out of the shop quickly. 💯 recommend. Glad I found Pappy Tackle.' },
+  // Google truncated this one mid-sentence ("Everything was completed …") and the
+  // rest isn't recoverable from the screenshot, so it ends at the last complete
+  // sentence rather than inventing the tail.
+  { id: 'peter-buetow', rating: 5, name: 'Peter Buetow', date: '2025-07-28',
+    body: "It's a pleasure to support a young business that has such excellent service. We enlisted them in lifting a 2020 Toyota Tacoma with King shocks. Grill modifications. Muffler installation. And a few ancillary items." },
   { id: 'austin-steen', rating: 5, name: 'Austin Steen', date: '2025-07-28',
     body: 'I drive all the way from Lynnwood for these guys to work on my car. They do a great job' },
   { id: 'riley', rating: 5, name: 'Riley', date: '2025-07-28',
@@ -101,6 +125,8 @@ export const reviews: Review[] = [
     body: "Highly recommend this shop! These guys are very knowledgeable and efficient. They replaced my back hatch in a quick and professional manner. They just did an excellent job doing my car's 60k service. This is the only shop I'll take my car to and highly recommend it to others!" },
   { id: 'jordyn-magnuson', rating: 5, name: 'Jordyn Magnuson', date: '2025-07-28',
     body: 'These guys are the best out there! Hard working, honest, and great quality work. They can handle anything from small jobs to putting a 3" lift on my jeep. Will be taking all my vehicles to these guys.' },
+  { id: 'jason-dallmann', rating: 5, name: 'Jason Dallmann', date: '2025-07-28',
+    body: "I rate a mechanic up there with having a Dr. you trust. It's such a relief to find these guys and know the diagnosis is honest and the work done with hardly a turnaround time. Real friendly folks at Pappytackle!" },
   { id: 'joe', rating: 5, name: 'Joe', date: '2025-07-28',
     body: 'These guys run the only trustworthy shop in the area. Straight up great service, great experience every time. 10/10 I always bring my Jeep here after dropping thousands at other shops. Love these guys' },
   { id: 'shaun-davis-2', rating: 5, name: 'Shaun Davis', date: '2025-07-28',
