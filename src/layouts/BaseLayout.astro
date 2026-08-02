@@ -14,7 +14,7 @@ interface Props {
   navOver?: boolean;
 }
 const cityState = `${shop.address.city}, ${shop.address.state}`;
-const { title, description = `Honest auto repair and custom 4×4 builds in ${cityState}. ASE Certified. ${shop.reviewStats.average} across ${shop.reviewStats.count}+ reviews.`, ogImage = '/og-default.jpg', navOver = false } = Astro.props;
+const { title, description = `Honest auto repair and custom 4×4 builds in ${cityState}. ${shop.reviewStats.average} stars across ${shop.reviewStats.count}+ reviews.`, ogImage = '/og-default.jpg', navOver = false } = Astro.props;
 const fullTitle = `${title} · ${shop.name} · ${cityState}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321').href;
 ---

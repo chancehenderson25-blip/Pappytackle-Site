@@ -4,29 +4,75 @@ import SectionLight from '@/components/SectionLight.astro';
 import SectionDark from '@/components/SectionDark.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import TodoBlock from '@/components/TodoBlock.astro';
-import { shop } from '@/data/shop';
 import CertStrip from '@/components/CertStrip.astro';
+import Button from '@/components/Button.astro';
+import StarRating from '@/components/StarRating.astro';
+import { shop } from '@/data/shop';
+
+const bread = [
+  { icon: '🔧', title: 'Everyday repair', body: 'Oil changes, brakes, A/C, electrical, exhaust, diagnostics — the maintenance every vehicle needs eventually.' },
+  { icon: '🏔️', title: 'Off-road builds', body: "Lift kits, long-travel suspension, custom fabrication, full builds — done as an engineering job, with geometry and alignment checked up front. Whether you're starting with something brand new or a rig that's been sitting a while, we're chasing how it drives, not a show-floor shine." },
+  { icon: '👀', title: 'Something else?', body: "If it doesn't fit either category, bring it by and we'll tell you straight whether it's something we can take on." },
+];
 ---
-<BaseLayout title="About — Meet Chance">
+<BaseLayout title="About" description={`Pappytackle 4×4 & Auto in ${shop.address.city}, ${shop.address.state} — full-service repair and off-road builds, started by Chance in 2024.`}>
   <SectionLight tone="bone">
     <div class="container-narrow">
       <Eyebrow class="!text-[var(--color-ember)]">About the shop</Eyebrow>
-      <h1 class="mt-2 text-5xl md:text-6xl">Meet Chance.</h1>
-      <div class="mt-8"><TodoBlock label="Portrait of Chance — replace with real photo" ratio="3/2" /></div>
-      <div class="mt-10 prose-lg max-w-none leading-relaxed text-[var(--color-ink)]/90">
-        <p class="text-2xl"><span class="float-left mr-3 mt-1 text-7xl font-display font-bold leading-none text-[var(--color-ember)]">P</span>appytackle isn't a corporate auto chain. It's one guy who knows what he's doing, one bay at a time, in a small shop on {shop.address.line1.replace(/^\d+\s/, '')} in {shop.address.city}.</p>
-        <p class="mt-6">Chance has been working on cars and trucks for over a decade. ASE Certified. The kind of mechanic who tells you when you don't need a repair, and explains exactly what he found when you do.</p>
-        <p class="mt-6">Most days, that means oil changes, brakes, A/C work, diagnostics, exhaust — the usual stuff a daily driver needs. But on the days when someone rolls in with a Tacoma that needs a 3-inch lift, or a Lexus GX that wants long-travel suspension, that's where Pappytackle really opens up. Chance builds rigs the way he'd build his own — proper geometry, real alignment, no compromises that bite you on the trail.</p>
-        <p class="mt-6">If you're local and you want a shop that picks up the phone and tells you the truth, you found one.</p>
+      <h1 class="mt-2 text-5xl md:text-6xl">Full-service repair. Real off-road builds.</h1>
+      <div class="mt-4 flex items-center gap-2 text-sm text-[var(--color-ink)]/70">
+        <StarRating rating={shop.reviewStats.average} />
+        <span>{shop.reviewStats.average} stars · {shop.reviewStats.count}+ real Google reviews · BBB accredited</span>
       </div>
-      <div class="mt-10"><TodoBlock label="Shop exterior or interior — replace with real photo" ratio="16/9" /></div>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink)]/85">
+        Pappytackle 4×4 & Auto is a full-service auto shop in {shop.address.city}, {shop.address.state},
+        started by Chance — self-taught, with a lifelong habit of figuring out how things work. We
+        handle everyday repair and build off-road rigs the right way; if your project doesn't fit
+        neatly into either category, tell us about it anyway.
+      </p>
+      <div class="mt-10"><TodoBlock label="Chance working in the shop" ratio="16/9" /></div>
     </div>
   </SectionLight>
+
+  <SectionLight tone="paper">
+    <div class="container-default">
+      <Eyebrow class="!text-[var(--color-ember)]">What we do</Eyebrow>
+      <h2 class="mt-2 text-3xl md:text-4xl">Everyday repair and off-road builds.</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {bread.map(b => (
+          <div class="p-6 bg-white border border-[var(--color-ink)]/10 rounded-[var(--radius-card)]">
+            <div class="text-2xl mb-3" aria-hidden="true">{b.icon}</div>
+            <h3 class="text-xl">{b.title}</h3>
+            <p class="mt-2 text-sm text-[var(--color-ink)]/75 leading-relaxed">{b.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8"><Button href="/services" variant="ghost-on-light">See all services</Button></div>
+    </div>
+  </SectionLight>
+
   <SectionDark>
-    <div class="text-center">
-      <Eyebrow>Trusted by</Eyebrow>
-      <CertStrip />
-      <p class="mt-6 text-2xl">{shop.reviewStats.average} stars · {shop.reviewStats.count}+ verified reviews</p>
+    <div class="container-narrow">
+      <Eyebrow>Our approach</Eyebrow>
+      <h2 class="mt-2 text-3xl md:text-4xl">We diagnose before we recommend anything.</h2>
+      <p class="mt-4 max-w-2xl text-lg text-[var(--color-bone)] leading-relaxed">
+        We look at what's actually wrong before we quote a fix, and if a repair isn't necessary,
+        we'll say so.
+      </p>
+      <p class="mt-6 max-w-2xl text-lg text-[var(--color-bone)] leading-relaxed">
+        Chance started Pappytackle in 2024, self-taught and built on a lifelong habit of figuring
+        out how things work. The shop moved to {shop.address.city} in 2026 as it grew from one
+        person into a small crew.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href="/book" variant="ember" size="lg">Book an appointment</Button>
+        <Button href="/reviews" variant="ghost-on-dark">Read the reviews</Button>
+      </div>
+      <div class="mt-12 pt-8 border-t border-[var(--color-bone)]/15 text-center">
+        <Eyebrow>Trusted by</Eyebrow>
+        <CertStrip />
+        <p class="mt-6 text-2xl">{shop.reviewStats.average} stars · {shop.reviewStats.count}+ reviews</p>
+      </div>
     </div>
   </SectionDark>
 </BaseLayout>
