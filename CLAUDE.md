@@ -43,9 +43,10 @@ original design intent, still accurate for overall architecture.
   2026-07-28). If it's ever built, it must *append* new reviews and dedup
   against the existing seed rather than replacing it, since the API only
   returns 5 reviews and would otherwise wipe out the other 49.
-- **Real shop photography**: About page (portrait + shop interior) and a few
-  4×4 Builds gallery slots are still placeholder/`TodoBlock` entries. This is
-  the main thing left before launch.
+- **Real shop photography**: About page (a candid "Chance working in the
+  shop" shot — deliberately not a posed portrait, he declined that) and a
+  few 4×4 Builds gallery slots are still placeholder/`TodoBlock` entries.
+  This is the main thing left before launch.
 - **No SPF record at the root domain** (`pappytackle.com` apex) — only at
   the `send` subdomain Resend uses. Doesn't affect the site, but weakens
   deliverability for mail sent directly from `service@pappytackle.com`.
@@ -149,6 +150,17 @@ This is a real business. Don't fabricate or guess at shop hours, pricing,
 services offered, warranty terms, or customer/vehicle/repair details when
 editing content or reviewing AI prompt behavior — check `src/data/shop.ts`,
 `src/data/services.ts`, or ask the owner.
+
+- The site previously stated "decade-plus of experience, ASE Certified" as
+  fact in three places (AI system prompt, default meta description,
+  `shop.certifications`). None of it was true — owner is not ASE certified,
+  and stated no specific tenure claim should be made at all. Fixed
+  2026-08-02. Only `BBB` is a real credential; `shop.certifications` should
+  never be padded with plausible-sounding badges again.
+- **Chance declined a posed self-portrait on the About page** ("maybe not
+  at all"). The current photo placeholder is scoped as "Chance working in
+  the shop" — candid, mid-task — as a deliberate middle ground, not an
+  oversight. Don't swap it for a headshot-style portrait without asking.
 
 ## Where things live
 

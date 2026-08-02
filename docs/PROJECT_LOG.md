@@ -10,6 +10,47 @@ that file is the current picture.
 
 ---
 
+## 2026-08-02 — About page rebuilt three times, false credential claims fixed
+
+**Fixed a real false-claims bug that had been sitting uncommitted.** The
+site was stating "decade-plus of experience, ASE Certified" as fact in the
+AI chat assistant's system prompt (meaning it was telling real customers
+this), the default meta description on every page, and the certifications
+badge strip (which also listed NAPA/O'Reilly/Synchrony Car Care — none
+real). Owner is 24, self-taught, not ASE certified. Traced it to source,
+fixed all three, added a guard in the AI prompt against restating it. This
+fix had actually been made a session ago but never committed — caught it
+sitting in the working tree while staging an unrelated change and shipped
+it late rather than losing it.
+
+**About page went through three full rewrites in one session**, each
+correcting the one before:
+1. First pass used personal stories the owner had told me for context only
+   (his dad, a childhood dirt-bike rebuild) — he explicitly said these were
+   never meant for the page, just background so I'd understand him. Pulled
+   entirely.
+2. Second pass ("fun, thrilling, tell people what we do") still carried
+   over false facts from the original site copy — "over a decade of
+   experience" and "ASE Certified" — because I hadn't verified them, just
+   preserved what was already there. Owner corrected both directly.
+3. Third pass, built from first principles with only verified facts: no
+   invented tenure, self-taught background stated as lifelong aptitude
+   without a number, no team bios (owner didn't want it reading as a
+   name-drop), no customer quotes on this page (Reviews page already
+   covers that). Two readability/tone audits followed and were
+   implemented on top of this version — collapsed from 6 sections to 3,
+   removed a repeated "we're honest" claim that appeared 3 different ways,
+   swapped the headline from a hedge ("worst we can say is no") to a
+   direct statement of identity, added a photo placeholder scoped as
+   "Chance working in the shop" (candid) after he'd separately declined a
+   posed self-portrait.
+
+**Pattern worth naming**: multiple things went wrong here by silently
+carrying forward unverified claims from the original site content instead
+of checking them against what the owner had actually confirmed. Now fixed,
+but worth remembering going forward — don't preserve a claim just because
+it was already on the page.
+
 ## 2026-07-28 (cont'd) — Real Google reviews replace the fabricated ones
 
 Owner exported their Google Business Profile reviews as 13 screenshots.
